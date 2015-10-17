@@ -196,6 +196,7 @@ namespace AiBuddy.Champions
                 case Champion.Rumble:
                     break;
                 case Champion.Ryze:
+                    Ryze.Ryze.Initialize();
                     break;
                 case Champion.Sejuani:
                     break;

@@ -94,6 +94,8 @@
     <Compile Include="Champions\Amumu\Modes\Combo.cs" />
     <Compile Include="Champions\Anivia\Anivia.cs" />
     <Compile Include="Champions\Anivia\Modes\Combo.cs" />
+    <Compile Include="Champions\Ryze\Ryze.cs" />
+    <Compile Include="Champions\Ryze\Modes\Combo.cs" />
     <Compile Include="Champions\Annie\Annie.cs" />
     <Compile Include="Champions\Annie\Modes\Combo.cs" />
     <Compile Include="Champions\Ashe\Ashe.cs" />
