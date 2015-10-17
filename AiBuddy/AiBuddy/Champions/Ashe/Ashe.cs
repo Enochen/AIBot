@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace AiBuddy.Champions.Ashe
+﻿namespace AiBuddy.Champions.Ashe
 {
-    class Ashe
+    internal class Ashe
     {
-        //TODO
+        
     }
 }

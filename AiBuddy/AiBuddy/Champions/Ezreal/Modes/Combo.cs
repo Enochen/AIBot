@@ -40,7 +40,6 @@ namespace AiBuddy.Champions.Ezreal.Modes
                     Ezreal.R.Cast(target);
                 }
             }
-
         }
     }
 }

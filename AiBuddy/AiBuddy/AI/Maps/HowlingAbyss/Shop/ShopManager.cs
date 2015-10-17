@@ -12,7 +12,6 @@ namespace AiBuddy.AI.Maps.HowlingAbyss.Shop
     internal class ShopManager
     {
         private static ItemId lastPurchasedItem = ItemId.Ichor_of_Illumination;
-
         // We will be using that to remember the last purchased Item
 
         private static readonly List<Item> Items = new List<Item>(); // Current Item List
@@ -405,20 +404,22 @@ namespace AiBuddy.AI.Maps.HowlingAbyss.Shop
         /*
         Buy Item
         */
+
         public static void BuyItem()
         {
             if (!Player.Instance.IsInShopRange() || !Player.Instance.IsDead)
             {
                 return;
             }
-            if (lastPurchasedItem == ItemId.Ichor_of_Illumination && new ItemData((uint)ShopList.List.First()).BasePrice <= Player.Instance.Gold)
+            if (lastPurchasedItem == ItemId.Ichor_of_Illumination &&
+                new ItemData((uint) ShopList.List.First()).BasePrice <= Player.Instance.Gold)
             {
                 EloBuddy.Shop.BuyItem(ShopList.List.First());
                 lastPurchasedItem = ShopList.List.First();
             }
             for (var x = 0; x < ShopList.List.Length; x++)
             {
-                var data = new ItemData((uint)(ShopList.List[x + 1]));
+                var data = new ItemData((uint) (ShopList.List[x + 1]));
                 if (lastPurchasedItem != ShopList.List[x] || !(data.BasePrice <= Player.Instance.Gold))
                 {
                     continue;

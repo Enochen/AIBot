@@ -17,6 +17,11 @@ namespace AiBuddy.Champions.Annie
         public static Spell.Active E;
         public static Spell.Skillshot R;
 
+        public static AIHeroClient _Player
+        {
+            get { return ObjectManager.Player; }
+        }
+
         public static void Initialize()
         {
             Bootstrap.Init(null);
@@ -41,15 +46,11 @@ namespace AiBuddy.Champions.Annie
 
         private static void Obj_AI_Base_OnProcessSpellCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
-            if (sender.IsEnemy && args.SData.Name.ToLowerInvariant().Contains("attack") && sender is AIHeroClient && args.Target != null && args.Target.IsMe)
+            if (sender.IsEnemy && args.SData.Name.ToLowerInvariant().Contains("attack") && sender is AIHeroClient &&
+                args.Target != null && args.Target.IsMe)
             {
                 E.Cast();
             }
-        }
-
-        public static AIHeroClient _Player
-        {
-            get { return ObjectManager.Player; }
         }
 
         private static void OnGameUpdate(EventArgs args)

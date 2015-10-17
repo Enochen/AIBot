@@ -18,6 +18,11 @@ namespace AiBuddy.Champions.Corki
         public static Spell.Active E;
         public static Spell.Skillshot R;
 
+        public static AIHeroClient _Player
+        {
+            get { return ObjectManager.Player; }
+        }
+
         public static void Initialize()
         {
             Bootstrap.Init(null);
@@ -31,7 +36,7 @@ namespace AiBuddy.Champions.Corki
             Q = new Spell.Skillshot(SpellSlot.Q, 825, SkillShotType.Circular, 400, int.MaxValue, 250);
             W = new Spell.Skillshot(SpellSlot.W, 800, SkillShotType.Circular, 400, 650, 65);
             E = new Spell.Active(SpellSlot.E, 600);
-            R = new Spell.Skillshot(SpellSlot.R, 1200,SkillShotType.Linear, 400, 1950, 75);
+            R = new Spell.Skillshot(SpellSlot.R, 1200, SkillShotType.Linear, 400, 1950, 75);
         }
 
         private static void InitMisc()
@@ -46,11 +51,6 @@ namespace AiBuddy.Champions.Corki
             {
                 W.Cast(_Player.Position.Shorten(sender.Position, W.Range));
             }
-        }
-
-        public static AIHeroClient _Player
-        {
-            get { return ObjectManager.Player; }
         }
 
         private static void OnGameUpdate(EventArgs args)

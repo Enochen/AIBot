@@ -1,10 +1,12 @@
-﻿namespace AiBuddy.Champions
+﻿#region
+
+using System;
+using EloBuddy;
+
+#endregion
+
+namespace AiBuddy.Champions
 {
-    using System;
-    using System.Runtime.CompilerServices;
-
-    using EloBuddy;
-
     internal class FindChampion
     {
         public static void FindAndSetChampion()

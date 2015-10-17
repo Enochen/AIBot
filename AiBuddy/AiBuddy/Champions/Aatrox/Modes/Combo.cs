@@ -1,9 +1,8 @@
 ﻿#region
 
+using AiBuddy.AI.Maps.HowlingAbyss.Brain;
 using EloBuddy;
 using EloBuddy.SDK;
-using AiBuddy.AI.Maps.HowlingAbyss.Brain;
-using AiBuddy.Utils;
 
 #endregion
 
@@ -23,7 +22,8 @@ namespace AiBuddy.Champions.Aatrox.Modes
             var target = TargetSelector.GetTarget(Aatrox.E.Range, DamageType.Physical);
             if (target == null) return;
 
-            if (Aatrox.Q.IsReady() && target.IsValidTarget(Aatrox.Q.Range) && target.CountEnemiesInRange(Aatrox.Q.Range) <= 2)
+            if (Aatrox.Q.IsReady() && target.IsValidTarget(Aatrox.Q.Range) &&
+                target.CountEnemiesInRange(Aatrox.Q.Range) <= 2)
             {
                 Aatrox.Q.Cast(target);
             }

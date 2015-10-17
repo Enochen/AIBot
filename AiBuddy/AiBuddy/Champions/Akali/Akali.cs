@@ -18,6 +18,11 @@ namespace AiBuddy.Champions.Akali
         public static Spell.Active E;
         public static Spell.Targeted R;
 
+        public static AIHeroClient _Player
+        {
+            get { return ObjectManager.Player; }
+        }
+
         public static void Initialize()
         {
             Bootstrap.Init(null);
@@ -39,7 +44,6 @@ namespace AiBuddy.Champions.Akali
             Game.OnUpdate += OnGameUpdate;
             Gapcloser.OnGapcloser += Gapcloser_OnGapcloser;
             Obj_AI_Base.OnLevelUp += Obj_AI_Base_OnLevelUp;
-
         }
 
         private static void Gapcloser_OnGapcloser(AIHeroClient sender, Gapcloser.GapcloserEventArgs e)
@@ -63,11 +67,6 @@ namespace AiBuddy.Champions.Akali
                     R = new Spell.Targeted(SpellSlot.R, 900);
                 }
             }
-        }
-
-        public static AIHeroClient _Player
-        {
-            get { return ObjectManager.Player; }
         }
 
         private static void OnGameUpdate(EventArgs args)

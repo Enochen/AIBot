@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace AiBuddy.Champions.Azir
+﻿namespace AiBuddy.Champions.Azir
 {
-    class Azir
+    internal class Azir
     {
     }
 }

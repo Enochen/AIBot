@@ -1,25 +1,21 @@
 ﻿#region
 
 using System;
-using System.Collections.Generic;
+using System.Linq;
 using EloBuddy;
+using EloBuddy.SDK;
 
 #endregion
 
 namespace AiBuddy.AI.Maps.HowlingAbyss.Brain
 {
-    using System.Linq;
-
-    using EloBuddy.SDK;
-
-    using AiBuddy.AI.Maps.HowlingAbyss.Brain.FollowBot;
     /// <summary>
-    /// Started by KarmaPanda. Please Improved xD
+    ///     Started by KarmaPanda. Please Improved xD
     /// </summary>
     internal class Brain
     {
         /// <summary>
-        /// Called whenever the Game Updates. TODO: Insert Brain.exe here please
+        ///     Called whenever the Game Updates. TODO: Insert Brain.exe here please
         /// </summary>
         /// <param name="args"></param>
         public static void OnUpdate(EventArgs args)
@@ -36,28 +32,35 @@ namespace AiBuddy.AI.Maps.HowlingAbyss.Brain
         }
 
         /// <summary>
-        /// Called if there is more than 1 ally. (This is the follow bot)
+        ///     Called if there is more than 1 ally. (This is the follow bot)
         /// </summary>
         public static void FollowBot()
         {
-            string[] ADC =
-            {
-                "Vayne", "Kalista", "Jinx", "Graves", "Urgot", "Corki",
-                "Draven", "Tristana", "Ashe", "Miss Fortune", "Varus", "Lucian"
-            };
-            var GetFollow =
+            var getFollow =
                 EntityManager.Heroes.Allies.Find(
                     a =>
                         a.IsAlly && !a.IsMe && a.IsValid && a.CanCast && a.CanMove && a.Deaths < 10);
-            var isADC = ADC.Contains(GetFollow.ChampionName);
 
+            if (getFollow != null)
+            {
+                Player.IssueOrder(GameObjectOrder.MoveTo, getFollow.Position);
+            }
+            else
+            {
+                var nexus =
+                    ObjectManager.Get<Obj_HQ>()
+                        .OrderBy(a => Player.Instance.Position.Distance(a.Position))
+                        .FirstOrDefault();
 
+                Player.IssueOrder(GameObjectOrder.MoveTo, nexus.Position);
+                AiBot(); //will be using this if no one to follow
+
+                Console.WriteLine("no one to follow");
+            }
         }
 
-
-
         /// <summary>
-        /// Called if Follow Bot isn't called. (This is the automatic bot)
+        ///     Called if Follow Bot isn't called. (This is the automatic bot)
         /// </summary>
         public static void AiBot()
         {

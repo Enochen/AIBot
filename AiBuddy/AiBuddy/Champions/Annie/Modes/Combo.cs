@@ -29,7 +29,8 @@ namespace AiBuddy.Champions.Annie.Modes
                 Annie.W.Cast(target);
             }
 
-            if (Annie.R.IsReady() && target.IsValidTarget(Annie.R.Range) && target.CountEnemiesInRange(290) >= 2 && _Player.HasBuff("Energized"))
+            if (Annie.R.IsReady() && target.IsValidTarget(Annie.R.Range) && target.CountEnemiesInRange(290) >= 2 &&
+                _Player.HasBuff("Energized"))
             {
                 Annie.R.Cast(target);
             }

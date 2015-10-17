@@ -1,11 +1,13 @@
-﻿namespace AiBuddy.Champions.Blitzcrank.Modes
+﻿#region
+
+using AiBuddy.Utils;
+using AiBuddy.Utils.DamageLib;
+using EloBuddy.SDK;
+
+#endregion
+
+namespace AiBuddy.Champions.Blitzcrank.Modes
 {
-    using AiBuddy.Utils;
-    using AiBuddy.Utils.DamageLib;
-
-    using EloBuddy;
-    using EloBuddy.SDK;
-
     internal class Combo
     {
         public static void Execute()

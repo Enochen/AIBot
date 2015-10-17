@@ -1,15 +1,18 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿#region
 
+using System.Collections.Generic;
+using System.Linq;
 using EloBuddy;
 using EloBuddy.SDK;
 
+#endregion
+
 namespace AiBuddy.AI.Maps.HowlingAbyss.Brain
 {
-    class GetHeroes
+    internal class GetHeroes
     {
         /// <summary>
-        /// Gets the valid heroes ingame
+        ///     Gets the valid heroes ingame
         /// </summary>
         public static IEnumerable<AIHeroClient> TeamHeroes
         {
@@ -91,6 +94,5 @@ namespace AiBuddy.AI.Maps.HowlingAbyss.Brain
                     .Where(h => h.IsValid && h.IsDead);
             }
         }
-
     }
 }

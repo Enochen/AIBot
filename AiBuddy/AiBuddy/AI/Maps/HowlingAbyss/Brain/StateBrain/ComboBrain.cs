@@ -1,24 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿#region
 
-using EloBuddy;
-
+using System;
 using AiBuddy.Utils;
+using EloBuddy;
 using EloBuddy.SDK;
+
+#endregion
 
 namespace AiBuddy.AI.Maps.HowlingAbyss.Brain.StateBrain
 {
     //Not finished yet - Logic is like 5/100 xd
-    class ComboBrain
+    internal class ComboBrain
     {
         /// <summary>
-        /// Manages wheather or not to do combo
+        ///     Manages wheather or not to do combo
         /// </summary>
         public static bool IsDoingCombo;
-        private static AIHeroClient _PlayerClient = ObjectManager.Player;
+
+        private static readonly AIHeroClient _PlayerClient = ObjectManager.Player;
+
         public static void Init()
         {
             var target = GetTarget.GetComboTarget();

@@ -1,12 +1,14 @@
-﻿using EloBuddy;
+﻿#region
+
+using EloBuddy;
+
+#endregion
 
 namespace AiBuddy.AI.Maps.HowlingAbyss.Shop
 {
-    class ShopList
+    internal class ShopList
     {
-        public static ItemId[] List = { }; // Giving this List the Champ Names
-
-
+        public static ItemId[] List = {}; // Giving this List the Champ Names
 
         public static ItemId[] APC =
         {
@@ -37,7 +39,7 @@ namespace AiBuddy.AI.Maps.HowlingAbyss.Shop
         };
 
         public static ItemId[] FIGHTER =
-{
+        {
             ItemId.Ravenous_Hydra_Melee_Only, ItemId.Mercurys_Treads, ItemId.The_Black_Cleaver,
             ItemId.Sunfire_Cape, ItemId.Randuins_Omen, ItemId.Last_Whisper,
             ItemId.Mercurys_Treads_Enchantment_Alacrity, ItemId.Elixir_of_Iron
@@ -67,19 +69,17 @@ namespace AiBuddy.AI.Maps.HowlingAbyss.Shop
         };
 
         public static ItemId[] Karthus =
-{
+        {
             ItemId.Rod_of_Ages, ItemId.Sorcerers_Shoes, ItemId.Archangels_Staff,
             ItemId.Ludens_Echo, ItemId.Rylais_Crystal_Scepter, ItemId.Rabadons_Deathcap,
             ItemId.Sorcerers_Shoes_Enchantment_Alacrity, ItemId.Elixir_of_Sorcery
         };
 
         public static ItemId[] Cassiopeia =
-{
+        {
             ItemId.Rod_of_Ages, ItemId.Sorcerers_Shoes, ItemId.Archangels_Staff,
             ItemId.Ludens_Echo, ItemId.Rylais_Crystal_Scepter, ItemId.Rabadons_Deathcap,
             ItemId.Sorcerers_Shoes_Enchantment_Alacrity, ItemId.Elixir_of_Sorcery
         };
-
-
     }
 }

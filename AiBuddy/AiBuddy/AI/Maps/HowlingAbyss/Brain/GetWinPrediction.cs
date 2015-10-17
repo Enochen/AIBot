@@ -1,19 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
+﻿#region
+
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using EloBuddy;
 using EloBuddy.SDK;
 
+#endregion
+
 namespace AiBuddy.AI.Maps.HowlingAbyss.Brain
 {
-    class ComboWinPrediction
+    internal class ComboWinPrediction
     {
-        private static AIHeroClient _playerClient = ObjectManager.Player;
+        private static readonly AIHeroClient _playerClient = ObjectManager.Player;
 
         /// <summary>
-        /// Win Prexdiction BETA - Predicts win chance.
+        ///     Win Prexdiction BETA - Predicts win chance.
         /// </summary>
         /// <returns>1-100 Depending on Win Chance</returns>
         private static float GetLevelMatchup()
@@ -85,7 +85,7 @@ namespace AiBuddy.AI.Maps.HowlingAbyss.Brain
                 .Where(h => h.IsInRange(_playerClient, 1500));
 
             //var enemyteam = GetHeroes.AliveEnemyHeroes
-                //.Where(h => h.IsInRange(_playerClient, 1500));
+            //.Where(h => h.IsInRange(_playerClient, 1500));
 
             if (team
                 .Count(h => !h.IsMe) == 1)
@@ -166,7 +166,7 @@ namespace AiBuddy.AI.Maps.HowlingAbyss.Brain
             var teamcount = GetAllyCountMatchup();
             var enemycount = GetEnemyCountMatchup();
             var levelmatchup = GetLevelMatchup();
-            float rating = 0f;
+            var rating = 0f;
 
             if (_playerClient.IsDead)
             {
@@ -182,6 +182,5 @@ namespace AiBuddy.AI.Maps.HowlingAbyss.Brain
 
             return 0;
         }
-
     }
 }

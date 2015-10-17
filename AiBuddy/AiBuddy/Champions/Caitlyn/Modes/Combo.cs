@@ -24,7 +24,8 @@ namespace AiBuddy.Champions.Caitlyn.Modes
                 Caitlyn.Q.Cast(target);
             }
 
-            if (Caitlyn.W.IsReady() && target.IsValidTarget(Caitlyn.W.Range) && target.HasBuffOfType(BuffType.Stun) || target.HasBuffOfType(BuffType.Snare))
+            if (Caitlyn.W.IsReady() && target.IsValidTarget(Caitlyn.W.Range) && target.HasBuffOfType(BuffType.Stun) ||
+                target.HasBuffOfType(BuffType.Snare))
             {
                 Caitlyn.W.Cast(target);
             }
@@ -40,7 +41,6 @@ namespace AiBuddy.Champions.Caitlyn.Modes
                     Caitlyn.R.Cast(target);
                 }
             }
-
         }
     }
 }

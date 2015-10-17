@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace AiBuddy.Champions.Ahri.Modes
+﻿namespace AiBuddy.Champions.Ahri.Modes
 {
-    class Combo
+    internal class Combo
     {
     }
 }

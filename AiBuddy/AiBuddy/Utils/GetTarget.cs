@@ -1,18 +1,19 @@
-﻿using EloBuddy;
+﻿#region
+
+using EloBuddy;
 using EloBuddy.SDK;
 
-using AiBuddy.Champions;
+#endregion
 
 namespace AiBuddy.Utils
 {
-    class GetTarget
+    internal class GetTarget
     {
         /// <summary>
-        /// Gets the target using the input of the caller.
+        ///     Gets the target using the input of the caller.
         /// </summary>
-        
         /// <returns>
-        /// Obj_AI_Base as target
+        ///     Obj_AI_Base as target
         /// </returns>
         public static AIHeroClient Target(float range, DamageType dtype)
         {
@@ -21,7 +22,7 @@ namespace AiBuddy.Utils
 
         public static AIHeroClient GetComboTarget()
         {
-            var hero = Utils.CurrentHero.Get();
+            var hero = CurrentHero.Get();
 
             switch (hero)
             {
@@ -59,7 +60,8 @@ namespace AiBuddy.Utils
                 }
                 case Champion.Blitzcrank:
                 {
-                    return TargetSelector.GetTarget(Champions.Blitzcrank.Blitzcrank.Q.Range, DamageLib.GetDamageType.Get());
+                    return TargetSelector.GetTarget(Champions.Blitzcrank.Blitzcrank.Q.Range,
+                        DamageLib.GetDamageType.Get());
                 }
             }
 

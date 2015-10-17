@@ -18,6 +18,11 @@ namespace AiBuddy.Champions.DrMundo
         public static Spell.Active E;
         public static Spell.Active R;
 
+        public static AIHeroClient _Player
+        {
+            get { return ObjectManager.Player; }
+        }
+
         public static void Initialize()
         {
             Bootstrap.Init(null);
@@ -30,7 +35,7 @@ namespace AiBuddy.Champions.DrMundo
         {
             Q = new Spell.Skillshot(SpellSlot.Q, 990, SkillShotType.Linear, 400, 1850, 55);
             W = new Spell.Active(SpellSlot.W, 160);
-            E = new Spell.Active(SpellSlot.E, (uint)_Player.AttackRange);
+            E = new Spell.Active(SpellSlot.E, (uint) _Player.AttackRange);
             R = new Spell.Active(SpellSlot.R, 500);
         }
 
@@ -55,11 +60,6 @@ namespace AiBuddy.Champions.DrMundo
             {
                 E.Cast();
             }
-        }
-
-        public static AIHeroClient _Player
-        {
-            get { return ObjectManager.Player; }
         }
 
         private static void OnGameUpdate(EventArgs args)

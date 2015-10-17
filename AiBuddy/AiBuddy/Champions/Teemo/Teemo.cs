@@ -9,31 +9,36 @@ using EloBuddy.SDK.Enumerations;
 
 namespace AiBuddy.Champions.Teemo
 {
-    using AiBuddy.Champions.Teemo.Shroom;
-
     /// <summary>
-    /// MarioGK & KarmaPanda
+    ///     MarioGK & KarmaPanda
     /// </summary>
     internal class Teemo
     {
-        
         /// <summary>
-        /// Initializes the Spell Q
+        ///     Initializes the Spell Q
         /// </summary>
         public static Spell.Targeted Q;
-        
+
         /// <summary>
-        /// Initializes the Spell W
+        ///     Initializes the Spell W
         /// </summary>
         public static Spell.Active W;
-        
+
         /// <summary>
-        /// Initializes the Spell R
+        ///     Initializes the Spell R
         /// </summary>
         public static Spell.Skillshot R;
 
         /// <summary>
-        /// Initializes Teemo
+        ///     Get's and Returns the Player Instance.
+        /// </summary>
+        public static AIHeroClient _Player
+        {
+            get { return ObjectManager.Player; }
+        }
+
+        /// <summary>
+        ///     Initializes Teemo
         /// </summary>
         public static void Initialize()
         {
@@ -44,7 +49,7 @@ namespace AiBuddy.Champions.Teemo
         }
 
         /// <summary>
-        /// Initializes the Spells
+        ///     Initializes the Spells
         /// </summary>
         public static void InitSpells()
         {
@@ -54,7 +59,7 @@ namespace AiBuddy.Champions.Teemo
         }
 
         /// <summary>
-        /// Initializes the Events
+        ///     Initializes the Events
         /// </summary>
         private static void InitMisc()
         {
@@ -63,7 +68,7 @@ namespace AiBuddy.Champions.Teemo
         }
 
         /// <summary>
-        /// Called when a unit levels up.
+        ///     Called when a unit levels up.
         /// </summary>
         /// <param name="sender">The Unit that Leveled Up</param>
         /// <param name="args">The Args</param>
@@ -86,21 +91,13 @@ namespace AiBuddy.Champions.Teemo
         }
 
         /// <summary>
-        /// Get's and Returns the Player Instance.
-        /// </summary>
-        public static AIHeroClient _Player
-        {
-            get { return ObjectManager.Player; }
-        }
-
-        /// <summary>
-        /// Called whenever the Game Updates.
+        ///     Called whenever the Game Updates.
         /// </summary>
         /// <param name="args">The Args</param>
         private static void OnGameUpdate(EventArgs args)
         {
             Modes.Combo.Execute();
-            Init.Initialize();
+            Shroom.Init.Initialize();
         }
     }
 }

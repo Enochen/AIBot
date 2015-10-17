@@ -17,6 +17,11 @@ namespace AiBuddy.Champions.Evelynn
         public static Spell.Targeted E;
         public static Spell.Skillshot R;
 
+        public static AIHeroClient _Player
+        {
+            get { return ObjectManager.Player; }
+        }
+
         public static void Initialize()
         {
             Bootstrap.Init(null);
@@ -36,11 +41,6 @@ namespace AiBuddy.Champions.Evelynn
         private static void InitMisc()
         {
             Game.OnUpdate += OnGameUpdate;
-        }
-
-        public static AIHeroClient _Player
-        {
-            get { return ObjectManager.Player; }
         }
 
         private static void OnGameUpdate(EventArgs args)

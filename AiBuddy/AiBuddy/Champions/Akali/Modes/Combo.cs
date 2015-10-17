@@ -1,9 +1,8 @@
 ﻿#region
 
-using EloBuddy;
+using AiBuddy.Utils;
 using EloBuddy.SDK;
 
-using AiBuddy.Utils;
 #endregion
 
 namespace AiBuddy.Champions.Akali.Modes
@@ -11,6 +10,7 @@ namespace AiBuddy.Champions.Akali.Modes
     internal class Combo
     {
         public static float ComboRange = Akali.R.Range;
+
         public static void Execute()
         {
             var target = GetTarget.GetComboTarget();
@@ -36,7 +36,6 @@ namespace AiBuddy.Champions.Akali.Modes
                     Akali.R.Cast(target);
                 }
             }
-
         }
     }
 }

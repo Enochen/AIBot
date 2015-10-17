@@ -18,6 +18,11 @@ namespace AiBuddy.Champions.Aatrox
         public static Spell.Skillshot E;
         public static Spell.Active R;
 
+        public static AIHeroClient _Player
+        {
+            get { return ObjectManager.Player; }
+        }
+
         public static void Initialize()
         {
             Bootstrap.Init(null);
@@ -29,7 +34,7 @@ namespace AiBuddy.Champions.Aatrox
         public static void InitSpells()
         {
             Q = new Spell.Skillshot(SpellSlot.Q, 650, SkillShotType.Circular, 450, int.MaxValue, 75);
-            W = new Spell.Active(SpellSlot.W, (uint)_Player.AttackRange);
+            W = new Spell.Active(SpellSlot.W, (uint) _Player.AttackRange);
             E = new Spell.Skillshot(SpellSlot.E, 1000, SkillShotType.Linear, 350, int.MaxValue, 50);
             R = new Spell.Active(SpellSlot.R, 325);
         }
@@ -38,7 +43,6 @@ namespace AiBuddy.Champions.Aatrox
         {
             Game.OnUpdate += OnGameUpdate;
             Gapcloser.OnGapcloser += Gapcloser_OnGapcloser;
-
         }
 
         private static void Gapcloser_OnGapcloser(AIHeroClient sender, Gapcloser.GapcloserEventArgs e)
@@ -47,11 +51,6 @@ namespace AiBuddy.Champions.Aatrox
             {
                 Q.Cast(_Player.Position.Shorten(sender.Position, Q.Range));
             }
-        }
-
-        public static AIHeroClient _Player
-        {
-            get { return ObjectManager.Player; }
         }
 
         private static void OnGameUpdate(EventArgs args)

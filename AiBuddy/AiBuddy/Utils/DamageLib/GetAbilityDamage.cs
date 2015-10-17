@@ -1,18 +1,23 @@
-﻿using EloBuddy;
+﻿#region
+
+using EloBuddy;
 using EloBuddy.SDK;
+
+#endregion
 
 namespace AiBuddy.Utils.DamageLib
 {
-    class GetAbilityDamage
+    internal class GetAbilityDamage
     {
         /// <summary>
-        /// Gets the abilities' damage using the SDK Damagelib. If any damage isn't working,
-        /// I will manually add it after it is reported.
+        ///     Gets the abilities' damage using the SDK Damagelib. If any damage isn't working,
+        ///     I will manually add it after it is reported.
         /// </summary>
-        private static AIHeroClient _playerClient = ObjectManager.Player;
+        private static readonly AIHeroClient _playerClient = ObjectManager.Player;
+
         public static float GetSingle(Obj_AI_Base target, SpellSlot slot)
         {
-            float damage = 0f;
+            var damage = 0f;
 
             damage += _playerClient.GetSpellDamage(target, slot);
             return damage;
@@ -20,7 +25,7 @@ namespace AiBuddy.Utils.DamageLib
 
         public static float GetCombo(Obj_AI_Base target)
         {
-            float damage = 0f;
+            var damage = 0f;
 
             damage += _playerClient.GetSpellDamage(target, SpellSlot.Q);
             damage += _playerClient.GetSpellDamage(target, SpellSlot.W);

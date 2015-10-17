@@ -18,6 +18,11 @@ namespace AiBuddy.Champions.Caitlyn
         public static Spell.Skillshot E;
         public static Spell.Targeted R;
 
+        public static AIHeroClient _Player
+        {
+            get { return ObjectManager.Player; }
+        }
+
         public static void Initialize()
         {
             Bootstrap.Init(null);
@@ -39,7 +44,6 @@ namespace AiBuddy.Champions.Caitlyn
             Game.OnUpdate += OnGameUpdate;
             Gapcloser.OnGapcloser += Gapcloser_OnGapcloser;
             Obj_AI_Base.OnLevelUp += Obj_AI_Base_OnLevelUp;
-
         }
 
         private static void Gapcloser_OnGapcloser(AIHeroClient sender, Gapcloser.GapcloserEventArgs e)
@@ -63,11 +67,6 @@ namespace AiBuddy.Champions.Caitlyn
                     R = new Spell.Targeted(SpellSlot.R, 3000);
                 }
             }
-        }
-
-        public static AIHeroClient _Player
-        {
-            get { return ObjectManager.Player; }
         }
 
         private static void OnGameUpdate(EventArgs args)

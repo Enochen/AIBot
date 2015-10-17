@@ -1,9 +1,9 @@
-﻿
-    using System;
-    using System.Linq;
+﻿#region
 
-    using EloBuddy;
-    using EloBuddy.SDK;
+using System;
+using EloBuddy;
+
+#endregion
 
 namespace AiBuddy.AI.Maps.HowlingAbyss.Brain.FollowBot
 {

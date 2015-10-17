@@ -1,17 +1,19 @@
-﻿using EloBuddy;
+﻿#region
+
+using EloBuddy;
+
+#endregion
 
 namespace AiBuddy.Utils.DamageLib
 {
-    class GetDamageType
+    internal class GetDamageType
     {
         /// <summary>
-        /// Gets the damagetype for each champ.
+        ///     Gets the damagetype for each champ.
         /// </summary>
-        
         /// <returns>
-        /// DamageType.[Champ's main damagetype]
+        ///     DamageType.[Champ's main damagetype]
         /// </returns>
-        
         public static DamageType Get()
         {
             switch (ObjectManager.Player.ChampionName)

@@ -1,16 +1,17 @@
-﻿using EloBuddy;
-using EloBuddy.SDK;
+﻿#region
 
 using AiBuddy.Utils;
-using AiBuddy.Utils.DamageLib;
+using EloBuddy;
+
+#endregion
 
 namespace AiBuddy.AI.Maps.HowlingAbyss.Brain.StateBrain
 {
-    class StateManager
+    internal class StateManager
     {
         public static void DoCombo()
         {
-            var hero = Utils.CurrentHero.Get();
+            var hero = CurrentHero.Get();
             switch (hero)
             {
                 case Champion.Akali:

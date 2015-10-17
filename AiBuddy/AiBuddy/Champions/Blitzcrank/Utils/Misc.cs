@@ -1,9 +1,13 @@
-﻿namespace AiBuddy.Champions.Blitzcrank.Utils
-{
-    using EloBuddy;
-    using EloBuddy.SDK;
-    using EloBuddy.SDK.Constants;
+﻿#region
 
+using EloBuddy;
+using EloBuddy.SDK;
+using EloBuddy.SDK.Constants;
+
+#endregion
+
+namespace AiBuddy.Champions.Blitzcrank.Utils
+{
     internal class Misc
     {
         public static void OnSpellCast(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
@@ -27,7 +31,7 @@
             //E After Attack
             if (args.SData.IsAutoAttack() && Blitzcrank.E.IsReady()
                 && TargetSelector.GetTarget(Player.Instance.GetAutoAttackRange(), DamageType.Physical)
-                       .IsValidTarget())
+                    .IsValidTarget())
             {
                 Blitzcrank.E.Cast();
             }

@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace AiBuddy.Champions.Azir.Modes
+﻿namespace AiBuddy.Champions.Azir.Modes
 {
-    class Combo
+    internal class Combo
     {
     }
 }

@@ -1,22 +1,21 @@
-﻿namespace AiBuddy.Champions.Blitzcrank
+﻿#region
+
+using System;
+using AiBuddy.Champions.Blitzcrank.Modes;
+using AiBuddy.Champions.Blitzcrank.Utils;
+using EloBuddy;
+using EloBuddy.SDK;
+using EloBuddy.SDK.Enumerations;
+
+#endregion
+
+namespace AiBuddy.Champions.Blitzcrank
 {
-    using System;
-
-    using AiBuddy.Champions.Blitzcrank.Modes;
-    using AiBuddy.Champions.Blitzcrank.Utils;
-
-    using EloBuddy;
-    using EloBuddy.SDK;
-    using EloBuddy.SDK.Enumerations;
-
     internal class Blitzcrank
     {
         public static Spell.Skillshot Q;
-
         public static Spell.Active W;
-
         public static Spell.Active E;
-
         public static Spell.Skillshot R;
 
         public static void Initialize()

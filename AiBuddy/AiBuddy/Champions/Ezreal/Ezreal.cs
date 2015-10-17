@@ -1,20 +1,16 @@
 ﻿#region
 
-
+using System;
+using AiBuddy.Champions.Ezreal.Modes;
+using EloBuddy;
+using EloBuddy.SDK;
+using EloBuddy.SDK.Enumerations;
+using EloBuddy.SDK.Events;
 
 #endregion
 
 namespace AiBuddy.Champions.Ezreal
 {
-    using System;
-
-    using AiBuddy.Champions.Ezreal.Modes;
-
-    using EloBuddy;
-    using EloBuddy.SDK;
-    using EloBuddy.SDK.Enumerations;
-    using EloBuddy.SDK.Events;
-
     // MarioGK
     internal class Ezreal
     {
@@ -35,10 +31,10 @@ namespace AiBuddy.Champions.Ezreal
         {
             Q = new Spell.Skillshot(SpellSlot.Q, 1100, SkillShotType.Circular, 300, 2000, 65);
             W = new Spell.Skillshot(SpellSlot.W, 1000, SkillShotType.Circular, 300, 1550, 80)
-                    { AllowedCollisionCount = int.MaxValue };
+            {AllowedCollisionCount = int.MaxValue};
             E = new Spell.Skillshot(SpellSlot.E, 475, SkillShotType.Circular, 600, int.MaxValue, 10);
             R = new Spell.Skillshot(SpellSlot.R, int.MaxValue, SkillShotType.Linear, 1, 2000, 160)
-                    { AllowedCollisionCount = int.MaxValue };
+            {AllowedCollisionCount = int.MaxValue};
         }
 
         private static void InitMisc()
