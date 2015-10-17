@@ -10,7 +10,7 @@ namespace AiBuddy.AI.Maps.HowlingAbyss.Brain
 {
     internal class ComboWinPrediction
     {
-        private static readonly AIHeroClient _playerClient = ObjectManager.Player;
+        private static readonly AIHeroClient PlayerClient = ObjectManager.Player;
 
         /// <summary>
         ///     Win Prexdiction BETA - Predicts win chance.
@@ -18,7 +18,7 @@ namespace AiBuddy.AI.Maps.HowlingAbyss.Brain
         /// <returns>1-100 Depending on Win Chance</returns>
         private static float GetLevelMatchup()
         {
-            var clientlvl = _playerClient.Level;
+            var clientlvl = PlayerClient.Level;
             var combotarget = Utils.GetTarget.GetComboTarget();
 
             if (combotarget != null || combotarget.IsValid)
@@ -82,7 +82,7 @@ namespace AiBuddy.AI.Maps.HowlingAbyss.Brain
         private static float GetAllyCountMatchup()
         {
             var team = GetHeroes.AliveTeamHeroes
-                .Where(h => h.IsInRange(_playerClient, 1500));
+                .Where(h => h.IsInRange(PlayerClient, 1500));
 
             //var enemyteam = GetHeroes.AliveEnemyHeroes
             //.Where(h => h.IsInRange(_playerClient, 1500));
@@ -123,7 +123,7 @@ namespace AiBuddy.AI.Maps.HowlingAbyss.Brain
         private static float GetEnemyCountMatchup()
         {
             var team = GetHeroes.AliveEnemyHeroes
-                .Where(h => h.IsInRange(_playerClient, 1500));
+                .Where(h => h.IsInRange(PlayerClient, 1500));
 
             //var enemyteam = GetHeroes.AliveEnemyHeroes
             //.Where(h => h.IsInRange(_playerClient, 1500));
@@ -168,7 +168,7 @@ namespace AiBuddy.AI.Maps.HowlingAbyss.Brain
             var levelmatchup = GetLevelMatchup();
             var rating = 0f;
 
-            if (_playerClient.IsDead)
+            if (PlayerClient.IsDead)
             {
                 return 0;
             }
