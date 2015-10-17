@@ -1,6 +1,7 @@
 ﻿#region
 
 using AiBuddy.AI.Maps.HowlingAbyss.Brain;
+using AiBuddy.Utils;
 using EloBuddy;
 using EloBuddy.SDK;
 
@@ -17,9 +18,8 @@ namespace AiBuddy.Champions.Aatrox.Modes
 
         public static void Execute()
         {
-            if (ComboWinPrediction.Calculate() <= 50) return;
 
-            var target = TargetSelector.GetTarget(Aatrox.E.Range, DamageType.Physical);
+            var target = GetTarget.GetComboTarget();
             if (target == null) return;
 
             if (Aatrox.Q.IsReady() && target.IsValidTarget(Aatrox.Q.Range) &&

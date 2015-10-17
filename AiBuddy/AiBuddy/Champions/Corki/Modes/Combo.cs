@@ -1,5 +1,6 @@
 ﻿#region
 
+using AiBuddy.Utils;
 using EloBuddy;
 using EloBuddy.SDK;
 
@@ -16,7 +17,7 @@ namespace AiBuddy.Champions.Corki.Modes
 
         public static void Execute()
         {
-            var target = Utils.GetTarget.Target(Corki.Q.Range, DamageType.Physical);
+            var target = GetTarget.GetComboTarget();
             if (target == null) return;
 
             if (Corki.Q.IsReady() && target.IsValidTarget(Corki.Q.Range))

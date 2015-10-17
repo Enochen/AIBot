@@ -1,5 +1,6 @@
 ﻿#region
 
+using AiBuddy.Utils;
 using EloBuddy;
 using EloBuddy.SDK;
 
@@ -16,7 +17,7 @@ namespace AiBuddy.Champions.Evelynn.Modes
 
         public static void Execute()
         {
-            var target = Utils.GetTarget.Target(Evelynn.W.Range, DamageType.Magical);
+            var target = GetTarget.GetComboTarget();
             if (target == null) return;
 
             if (Evelynn.Q.IsReady() && target.IsValidTarget(Evelynn.Q.Range))

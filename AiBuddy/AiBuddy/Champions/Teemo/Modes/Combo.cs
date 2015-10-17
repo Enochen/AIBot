@@ -1,6 +1,6 @@
 ﻿#region
 
-using EloBuddy;
+using AiBuddy.Utils;
 using EloBuddy.SDK;
 
 #endregion
@@ -11,7 +11,7 @@ namespace AiBuddy.Champions.Teemo.Modes
     {
         public static void Execute()
         {
-            var target = Utils.GetTarget.Target(Teemo.W.Range, DamageType.Physical);
+            var target = GetTarget.GetComboTarget();
 
             if (target == null)
             {

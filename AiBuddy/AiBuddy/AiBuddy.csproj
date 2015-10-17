@@ -89,6 +89,7 @@
     <Compile Include="Champions\Akali\Akali.cs" />
     <Compile Include="Champions\Akali\Modes\Combo.cs" />
     <Compile Include="Champions\Alistar\Alistar.cs" />
+    <Compile Include="Champions\Alistar\Modes\Combo.cs" />
     <Compile Include="Champions\Amumu\Amumu.cs" />
     <Compile Include="Champions\Amumu\Modes\Combo.cs" />
     <Compile Include="Champions\Anivia\Anivia.cs" />
@@ -152,9 +153,7 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Champions\Alistar\Modes\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -1,6 +1,7 @@
 ﻿#region
 
 using System.Linq;
+using AiBuddy.Utils;
 using EloBuddy;
 using EloBuddy.SDK;
 
@@ -17,7 +18,7 @@ namespace AiBuddy.Champions.Soraka.Modes
 
         public static void Execute()
         {
-            var enemy = AiBuddy.Utils.GetTarget.Target(Soraka.Q.Range, DamageType.Magical);
+            var target = GetTarget.GetComboTarget();
             var ally =
                 EntityManager.Heroes.Allies.Where(
                     x =>
@@ -36,7 +37,7 @@ namespace AiBuddy.Champions.Soraka.Modes
 
             if (Soraka.Q.IsReady())
             {
-                Soraka.Q.Cast(enemy);
+                Soraka.Q.Cast(target);
             }
         }
     }

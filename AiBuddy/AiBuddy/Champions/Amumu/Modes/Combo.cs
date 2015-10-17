@@ -1,5 +1,6 @@
 ﻿#region
 
+using AiBuddy.Utils;
 using EloBuddy;
 using EloBuddy.SDK;
 
@@ -16,7 +17,7 @@ namespace AiBuddy.Champions.Amumu.Modes
 
         public static void Execute()
         {
-            var target = TargetSelector.GetTarget(Amumu.Q.Range, DamageType.Magical);
+            var target = GetTarget.GetComboTarget();
             if (target == null) return;
 
             if (Amumu.Q.IsReady() && target.IsValidTarget(Amumu.Q.Range) &&

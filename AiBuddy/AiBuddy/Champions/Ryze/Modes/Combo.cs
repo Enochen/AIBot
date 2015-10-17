@@ -13,7 +13,7 @@ namespace AiBuddy.Champions.Ryze.Modes
     {
         public static void Execute()
         {
-            var target = GetTarget.Target(Ryze.W.Range, DamageType.Magical);
+            var target = GetTarget.GetComboTarget();
             if (target == null)
             {
                 return;

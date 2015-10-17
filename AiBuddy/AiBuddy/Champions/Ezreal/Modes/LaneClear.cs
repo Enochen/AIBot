@@ -3,7 +3,6 @@
 using System.Linq;
 using EloBuddy;
 using EloBuddy.SDK;
-using EloBuddy.SDK.Enumerations;
 
 #endregion
 
@@ -16,12 +15,12 @@ namespace AiBuddy.Champions.Ezreal.Modes
             Obj_AI_Base target =
                 EntityManager.MinionsAndMonsters.EnemyMinions.Where(
                     minion =>
-                        minion.Health <= Player.Instance.GetSpellDamage(minion, SpellSlot.Q) && !minion.IsInvulnerable
+                        minion.Health <= Player.Instance.GetSpellDamage(minion, SpellSlot.Q)
                         && minion.IsValidTarget(Ezreal.Q.Range))
                     .OrderByDescending(minion => minion.HealthPercent)
                     .First();
 
-            if (Ezreal.Q.IsReady() && Ezreal.Q.GetPrediction(target).HitChance > HitChance.Low)
+            if (Ezreal.Q.IsReady())
             {
                 Ezreal.Q.Cast(target);
             }

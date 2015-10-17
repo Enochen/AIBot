@@ -1,5 +1,6 @@
 ﻿#region
 
+using AiBuddy.Utils;
 using EloBuddy;
 using EloBuddy.SDK;
 
@@ -16,7 +17,7 @@ namespace AiBuddy.Champions.Caitlyn.Modes
 
         public static void Execute()
         {
-            var target = Utils.GetTarget.Target(Caitlyn.Q.Range, DamageType.Physical);
+            var target = GetTarget.GetComboTarget();
             if (target == null) return;
 
             if (Caitlyn.Q.IsReady() && target.IsValidTarget(Caitlyn.Q.Range))

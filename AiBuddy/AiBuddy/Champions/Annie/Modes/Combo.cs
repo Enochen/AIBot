@@ -1,5 +1,6 @@
 ﻿#region
 
+using AiBuddy.Utils;
 using EloBuddy;
 using EloBuddy.SDK;
 
@@ -16,7 +17,7 @@ namespace AiBuddy.Champions.Annie.Modes
 
         public static void Execute()
         {
-            var target = Utils.GetTarget.Target(Annie.Q.Range, DamageType.Magical);
+            var target = GetTarget.GetComboTarget();
             if (target == null) return;
 
             if (Annie.Q.IsReady() && target.IsValidTarget(Annie.Q.Range))
