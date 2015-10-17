@@ -76,7 +76,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AI\Maps\HowlingAbyss\Brain\FollowBot\Follow.cs" />
     <Compile Include="AI\Maps\HowlingAbyss\Brain\GetHeroes.cs" />
     <Compile Include="AI\Maps\HowlingAbyss\Brain\GetWinPrediction.cs" />
     <Compile Include="AI\Maps\HowlingAbyss\Brain\StateBrain\ComboBrain.cs" />
@@ -89,7 +88,6 @@
     <Compile Include="Champions\Akali\Akali.cs" />
     <Compile Include="Champions\Akali\Modes\Combo.cs" />
     <Compile Include="Champions\Alistar\Alistar.cs" />
-    <Compile Include="Champions\Alistar\Modes\Combo.cs" />
     <Compile Include="Champions\Amumu\Amumu.cs" />
     <Compile Include="Champions\Amumu\Modes\Combo.cs" />
     <Compile Include="Champions\Anivia\Anivia.cs" />
@@ -152,6 +150,9 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Champions\Alistar\Modes\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

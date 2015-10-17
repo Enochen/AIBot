@@ -17,7 +17,7 @@ namespace AiBuddy.AI.Maps.HowlingAbyss.Brain
         /// <summary>
         ///     Called whenever the Game Updates. TODO: Insert Brain.exe here please
         /// </summary>
-        /// <param name="args"></param>
+        /// 
         public static void OnUpdate(EventArgs args)
         {
             // Initialize follow bot if there is more than one ally.

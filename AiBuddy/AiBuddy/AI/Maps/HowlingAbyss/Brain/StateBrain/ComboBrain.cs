@@ -45,10 +45,6 @@ namespace AiBuddy.AI.Maps.HowlingAbyss.Brain.StateBrain
 
         private static void Combo_ComboTickArgs(EventArgs args)
         {
-            if (IsDoingCombo)
-            {
-                FollowBot.FollowBot.ShouldFollow = false;
-            }
         }
     }
 }
