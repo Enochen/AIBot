@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AiBuddy", "AiBuddy\AiBuddy.csproj", "{EDBE8047-9B38-46B4-B58C-A0F8C33A068B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B63DF365-67AB-40D4-9D8F-3C2A3F907653}"
+	ProjectSection(SolutionItems) = preProject
+		System\EloBuddy.dll = System\EloBuddy.dll
+		System\EloBuddy.SDK.dll = System\EloBuddy.SDK.dll
+		System\SharpDX.Direct3D9.dll = System\SharpDX.Direct3D9.dll
+		System\SharpDX.dll = System\SharpDX.dll
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EDBE8047-9B38-46B4-B58C-A0F8C33A068B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EDBE8047-9B38-46B4-B58C-A0F8C33A068B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EDBE8047-9B38-46B4-B58C-A0F8C33A068B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EDBE8047-9B38-46B4-B58C-A0F8C33A068B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

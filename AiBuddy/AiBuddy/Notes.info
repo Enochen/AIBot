@@ -1,0 +1,25 @@
+﻿
+Recent Changes:
+-GetWinPrediction Combo Mode [BETA]
+-GetTarget
+-GetAbilityDamage
+-GetDamageType
+-GetComboTarget
+-GetHeroes
+-FollowBot [ALPHA]
+-AIWalker [ALPHA]
+
+Stuff to Note:
+-Please do not make any combo states in champs until the StateManager is updated to be with it
+-Use GetTarget instead of the normal GetTarget, so in the futute we won't have to change it, as GetTarget will have its own list of arguments to improve targetselection by the bot
+-Use GetHeroes for reusability and ease of change in the future
+-Use GetWinPrediction
+-Use AIWalker instead of the SDK Orbwalker
+-Use GetAbilityDamage to get damage instead of GetSpellDamage, for more compatibility in the future if we need to change/add some spell values
+
+Stuff I Need Done Plez:
+-Somebody to help with some Brain stuff?!?
+-GetSummonerSlots.Spells in Utils. Name is pretty self explanatory xd
+
+Id love if you guys could try to do the shit I wrote xd
+north
