@@ -29,6 +29,8 @@ namespace AiBuddy.AI.Maps.HowlingAbyss.Brain
             {
                 AiBot();
             }
+
+            StateBrain.ComboBrain.Init();
         }
 
         /// <summary>
