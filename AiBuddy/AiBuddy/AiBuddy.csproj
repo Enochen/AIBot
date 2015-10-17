@@ -79,6 +79,7 @@
     <Compile Include="AI\Maps\HowlingAbyss\Brain\GetHeroes.cs" />
     <Compile Include="AI\Maps\HowlingAbyss\Brain\GetWinPrediction.cs" />
     <Compile Include="AI\Maps\HowlingAbyss\Brain\StateBrain\ComboBrain.cs" />
+    <Compile Include="AI\Maps\HowlingAbyss\Brain\StateBrain\Control.cs" />
     <Compile Include="AI\Maps\HowlingAbyss\Brain\StateBrain\StateManager.cs" />
     <Compile Include="AI\Maps\HowlingAbyss\Shop\ShopList.cs" />
     <Compile Include="Champions\Aatrox\Aatrox.cs" />
