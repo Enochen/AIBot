@@ -283,8 +283,11 @@ namespace AiBuddy.Champions
             //    default:
             //        throw new ArgumentOutOfRangeException();
             //}
-            var champ = Type.GetType("AiBuddy.Champions." + Player.Instance.ChampionName + Player.Instance.ChampionName);
-            champ?.GetMethod("Initialize").Invoke(null, null);
+            var champ = Type.GetType("AiBuddy:Champions:" + Player.Instance.ChampionName + Player.Instance.ChampionName);
+            if (champ != null)
+            {
+                champ.GetMethod("Initialize").Invoke(null, null);
+            }
         }
     }
 }

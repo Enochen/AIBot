@@ -13,14 +13,14 @@
     using TreeSharp;
 
     using Action = TreeSharp.Action;
-
+    
     internal class Aram : GameRoutine
     {
         private ShopHandler shopHandler;
 
         public override void OnLoad()
         {
-            Chat.Print($"<font color=\"#40c1ff\">[AIBuddy]:</font> <font color=\"#ffffff\">{this.MapId} loaded</font>");
+            Chat.Print(string.Format("<font color=\"#40c1ff\">[AIBuddy]:</font> <font color=\"#ffffff\">{0} loaded</font>", this.MapId));
 
             this.shopHandler = new ShopHandler();
             FindChampion.FindAndSetChampion();
