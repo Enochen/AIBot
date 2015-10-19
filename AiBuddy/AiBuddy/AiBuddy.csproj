@@ -60,6 +60,10 @@
     <Reference Include="EloBuddy.SDK">
       <HintPath>..\System\EloBuddy.SDK.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="SharpDX">
       <HintPath>..\System\SharpDX.dll</HintPath>
     </Reference>
@@ -76,6 +80,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AI\Automation\Contexts\Aram.cs" />
+    <Compile Include="AI\Automation\GameRoutine.cs" />
+    <Compile Include="AI\Logic\Navigation.cs" />
+    <Compile Include="AI\Program.cs" />
+    <Compile Include="AI\Automation\ShopHandler.cs" />
     <Compile Include="AI\Maps\HowlingAbyss\Brain\GetHeroes.cs" />
     <Compile Include="AI\Maps\HowlingAbyss\Brain\GetWinPrediction.cs" />
     <Compile Include="AI\Maps\HowlingAbyss\Brain\StateBrain\ComboBrain.cs" />
@@ -138,8 +147,10 @@
     <Compile Include="Utils\Orbwalker.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="AI\Resources\ChampionBuild 5 15 1.json" />
     <None Include="App.config" />
     <None Include="Notes.info" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
@@ -153,7 +164,12 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\TreeSharp\TreeSharp.csproj">
+      <Project>{8bfdd80e-9e64-4386-b676-ed3cfdf1b095}</Project>
+      <Name>TreeSharp</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

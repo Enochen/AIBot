@@ -1,12 +1,10 @@
-﻿#region
-
-using AiBuddy.Champions;
-using EloBuddy;
-
-#endregion
-
-namespace AiBuddy.AI
+﻿namespace AiBuddy.AI
 {
+    using AiBuddy.AI.Maps.HowlingAbyss;
+    using AiBuddy.Champions;
+
+    using EloBuddy;
+
     internal class InitBrain
     {
         // Load will be executed on Init.cs
@@ -17,7 +15,7 @@ namespace AiBuddy.AI
             {
                 //Only ARAM is supported for now.
                 case GameMapId.HowlingAbyss:
-                    Maps.HowlingAbyss.MapHandler.Init();
+                    MapHandler.Init();
                     FindChampion.FindAndSetChampion();
                     break;
                 default:
