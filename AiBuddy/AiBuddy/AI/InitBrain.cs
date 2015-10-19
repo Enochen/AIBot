@@ -18,6 +18,12 @@
                     MapHandler.Init();
                     FindChampion.FindAndSetChampion();
                     break;
+                case GameMapId.CrystalScar:
+                    break;
+                case GameMapId.TwistedTreeline:
+                    break;
+                case GameMapId.SummonersRift:
+                    break;
                 default:
                     return;
             }
