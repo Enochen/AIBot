@@ -60,9 +60,8 @@
     <Reference Include="EloBuddy.SDK">
       <HintPath>..\System\EloBuddy.SDK.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\System\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX">
       <HintPath>..\System\SharpDX.dll</HintPath>
@@ -140,6 +139,11 @@
     <Compile Include="Champions\Teemo\Teemo.cs" />
     <Compile Include="Init.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Utils\CurrentHero.cs" />
     <Compile Include="Utils\DamageLib\GetAbilityDamage.cs" />
     <Compile Include="Utils\DamageLib\GetDamageType.cs" />
@@ -147,7 +151,9 @@
     <Compile Include="Utils\Orbwalker.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="AI\Resources\ChampionBuild 5 15 1.json" />
+    <Content Include="AI\Resources\ChampionBuild 5 15 1.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="App.config" />
     <None Include="Notes.info" />
     <None Include="packages.config" />
@@ -169,6 +175,12 @@
       <Project>{8bfdd80e-9e64-4386-b676-ed3cfdf1b095}</Project>
       <Name>TreeSharp</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

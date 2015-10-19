@@ -5,6 +5,7 @@
     using System.Linq;
 
     using AiBuddy.AI.Logic;
+    using AiBuddy.Champions;
 
     using EloBuddy;
     using EloBuddy.SDK;
@@ -19,11 +20,10 @@
 
         public override void OnLoad()
         {
-            Chat.Print(
-                $"<font color=\"#40c1ff\">[IFarmLevel]:</font> <font color=\"#ffffff\">{this.MapId} loaded</font>");
+            Chat.Print($"<font color=\"#40c1ff\">[AIBuddy]:</font> <font color=\"#ffffff\">{this.MapId} loaded</font>");
 
             this.shopHandler = new ShopHandler();
-
+            FindChampion.FindAndSetChampion();
             this.Rebuild();
             this.m_primaryBehaviour.Start(null);
         }
@@ -83,7 +83,6 @@
                         ret =>
                             {
                                 Console.WriteLine("Healing");
-
                                 var healingBuff =
                                     ObjectManager.Get<GameObject>()
                                         .Where(o => o.IsEnemy && o.Name.ToLower().Contains("healingbuff"))
@@ -93,10 +92,11 @@
                                 if (healingBuff != null)
                                 {
                                     Player.IssueOrder(GameObjectOrder.MoveTo, healingBuff.Position);
+                                    Console.WriteLine("Heal found");
                                 }
                                 else
                                 {
-                                    Console.WriteLine("no healing buff");
+                                    Console.WriteLine("No heal found");
                                 }
                             })));
         }
@@ -104,29 +104,27 @@
         public Composite FarmBehaviour()
         {
             return
-                new Decorator(
-                    ret =>
-                    EntityManager.MinionsAndMonsters.EnemyMinions.Any(
-                        o => o.Distance(Player.Instance) < Player.Instance.AttackRange),
-                    new PrioritySelector(
-                        new Decorator(
-                            ret =>
-                            EntityManager.MinionsAndMonsters.EnemyMinions.Any(
-                                o => o.Distance(Player.Instance) < Player.Instance.AttackRange),
-                            new Action(
-                                a =>
-                                    {
-                                        var target =
-                                            EntityManager.MinionsAndMonsters.EnemyMinions.OrderBy(
-                                                o => o.Distance(Player.Instance) < Player.Instance.AttackRange)
-                                                .FirstOrDefault();
+                new PrioritySelector(
+                    new Decorator(
+                        ret =>
+                        EntityManager.MinionsAndMonsters.EnemyMinions.Any(
+                            o => o.Distance(Player.Instance) < Player.Instance.AttackRange),
+                        new Action(
+                            a =>
+                                {
+                                    var target =
+                                        EntityManager.MinionsAndMonsters.EnemyMinions.OrderBy(
+                                            o => o.Distance(Player.Instance) < Player.Instance.AttackRange)
+                                            .FirstOrDefault();
 
-                                        if (target != null)
-                                        {
-                                            Orbwalker.ForcedTarget = target;
-                                            Orbwalker.OrbwalkTo(target.Position);
-                                        }
-                                    }))));
+                                    if (target == null)
+                                    {
+                                        return;
+                                    }
+                                    Orbwalker.ForcedTarget = target;
+                                    Orbwalker.OrbwalkTo(target.Position);
+                                })))
+            ;
         }
     }
 }
