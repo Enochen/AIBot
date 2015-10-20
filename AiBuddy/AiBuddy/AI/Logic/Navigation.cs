@@ -1,9 +1,12 @@
 ﻿namespace AiBuddy.AI.Logic
 {
+    using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     using EloBuddy;
     using EloBuddy.SDK;
+    using EloBuddy.SDK.Menu.Values;
     using EloBuddy.SDK.Rendering;
 
     using SharpDX;
@@ -111,8 +114,28 @@
             {
                 return NavigationSafety.Grass;
             }
-
+            //If cell is under turret and no ally under turret
+            foreach (var ally in EntityManager.Heroes.Allies)
+            {
+                foreach (
+                    var turret in
+                        EntityManager.Turrets.Enemies.Where(
+                            turret => cell.MeshCell.WorldPosition.IsInRange(turret, turret.GetAutoAttackRange())))
+                {
+                    return ally.IsInRange(turret, turret.GetAutoAttackRange())
+                               ? NavigationSafety.Average
+                               : NavigationSafety.Danger;
+                }
+            }
             return NavigationSafety.Safe;
+        }
+        public static Vector3 RandomizePosition(this Vector3 v)
+        {
+            var r = new Random(Environment.TickCount);
+            var minRandBy = 30;
+            var maxRandBy = 30;
+            minRandBy *= r.Next(-1, 1);
+            return new Vector2(v.X + r.Next(minRandBy, maxRandBy), v.Y + r.Next(minRandBy, maxRandBy)).To3D();
         }
     }
 }

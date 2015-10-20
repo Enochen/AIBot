@@ -3,6 +3,7 @@
     using System;
     using System.Drawing;
     using System.Linq;
+    using System.Security.Cryptography;
 
     using AiBuddy.AI.Logic;
     using AiBuddy.Champions;
@@ -88,19 +89,19 @@
                                             EntityManager.Heroes.Allies.Where(x => !x.IsDead && !x.IsInShopRange() && !x.IsMe)
                                                 .OrderBy(x => x.ChampionsKilled)
                                                 .FirstOrDefault();
-
+                                        
                                         var minion =
                                             EntityManager.MinionsAndMonsters.AlliedMinions.OrderByDescending(
                                                 x => x.Distance(ObjectManager.Get<Obj_HQ>().FirstOrDefault())).FirstOrDefault();
 
                                         if (ally != null)
                                         {
-                                            Player.IssueOrder(GameObjectOrder.MoveTo, ally.Position);
+                                            Player.IssueOrder(GameObjectOrder.MoveTo, ally.Position.RandomizePosition());
                                             Console.WriteLine("Ally found, moving");
                                         }
                                         else if(minion != null)
                                         {
-                                            Player.IssueOrder(GameObjectOrder.MoveTo, minion.Position);
+                                            Player.IssueOrder(GameObjectOrder.MoveTo, minion.Position.RandomizePosition());
                                             Console.WriteLine("Minion found, moving");
                                         }
                                         else
@@ -125,7 +126,12 @@
                                         .OrderBy(o => Player.Instance.Position.Distance(o.Position))
                                         .FirstOrDefault();
 
-                                if (healingBuff != null)
+                                var enemyTurret =
+                                    EntityManager.Turrets.Enemies.Where(x => !x.IsDead)
+                                        .OrderBy(x => x.Distance(Player.Instance))
+                                        .FirstOrDefault();
+
+                                if ((enemyTurret != null && healingBuff != null) && healingBuff.Distance(enemyTurret) > enemyTurret.AttackRange * 1.3)
                                 {
                                     Player.IssueOrder(GameObjectOrder.MoveTo, healingBuff.Position);
                                     Console.WriteLine("Heal found");
