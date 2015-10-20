@@ -44,7 +44,10 @@ namespace AiBuddy.AI.Automation
 
         public List<Item> CurrentBuild
         {
-            get { return this._build.Where(item => !Item.HasItem(item.Id)).ToList(); }
+            get
+            {
+                return this._build.ToList(); //.Where(item => !Item.HasItem(item.Id)).ToList(); }
+            }
         }
 
         public Item CurrentItem
@@ -57,11 +60,13 @@ namespace AiBuddy.AI.Automation
             this._behaviour = new Decorator(
                 ret => Shop.CanShop && this.CurrentItem != null,
                 new PrioritySelector(
-                        ret => true,
+                        ret => new ItemData((uint)this.CurrentItem.Id).BasePrice < Player.Instance.Gold,
                         new Action(ret =>
-                        {
-                            CurrentItem.Buy();
-                        })
+                            {
+                                Shop.BuyItem(this.CurrentItem.Id);
+                                Build.Remove(this.CurrentItem);
+                                //this.CurrentItem.Buy();
+                            })
                 ));
         }
 

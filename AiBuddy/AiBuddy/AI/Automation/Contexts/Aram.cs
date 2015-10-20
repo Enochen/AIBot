@@ -6,6 +6,7 @@
     using System.Security.Cryptography;
 
     using AiBuddy.AI.Logic;
+    using AiBuddy.AI.Maps.HowlingAbyss.Shop;
     using AiBuddy.Champions;
 
     using EloBuddy;
@@ -65,15 +66,21 @@
         public override void Rebuild()
         {
             this.m_primaryBehaviour = new PrioritySelector(
-                this.ShopBehaviour(),
+                
                 this.HealBehaviour(),
+                this.ShopBehaviour(),
                 this.FarmBehaviour(),
                 this.MoveBehaviour());
         }
 
         public Composite ShopBehaviour()
         {
-            return new Decorator(ret => Shop.CanShop, new Action(ret => { this.shopHandler.OnTick(); }));
+            return new Decorator(ret => Shop.CanShop/* && this.shopHandler.finishedShop()*/, new Action(
+                ret =>
+                    {
+                        Console.WriteLine("Shopping");
+                        this.shopHandler.OnTick();
+                    }));
         }
 
         public Composite MoveBehaviour()
@@ -96,13 +103,19 @@
 
                                         if (ally != null)
                                         {
-                                            Player.IssueOrder(GameObjectOrder.MoveTo, ally.Position.RandomizePosition());
+                                            Orbwalker.OrbwalkTo(ally.Position.Randomize());
                                             Console.WriteLine("Ally found, moving");
                                         }
                                         else if(minion != null)
                                         {
-                                            Player.IssueOrder(GameObjectOrder.MoveTo, minion.Position.RandomizePosition());
-                                            Console.WriteLine("Minion found, moving");
+                                            var position =
+                                                minion.Position.Extend(
+                                                    ObjectManager.Get<Obj_HQ>().FirstOrDefault(),
+                                                    250).To3D().Randomize();
+                                            if(Navigation.CalculateSafety(position.ToNavMeshCell()) < NavigationSafety.Average)
+                                            Orbwalker.OrbwalkTo(position);
+                                            //Console.WriteLine("Minion found, moving");
+                                            Console.WriteLine(minion.Position.Extend(ObjectManager.Get<Obj_HQ>().FirstOrDefault(), 250).To3D() +" vs " + minion.Position);
                                         }
                                         else
                                         {
@@ -113,28 +126,27 @@
 
         public Composite HealBehaviour()
         {
+            var healingBuff =
+                ObjectManager.Get<GameObject>()
+                    .Where(o => o.IsEnemy && o.Name.ToLower().Contains("healingbuff"))
+                    .OrderBy(o => Player.Instance.Position.Distance(o.Position))
+                    .FirstOrDefault();
             return new PrioritySelector(
                 new Decorator(
-                    ret => Player.Instance.HealthPercent < 50 && Player.Instance.CanMove,
+                    ret => Player.Instance.HealthPercent < 50 && Player.Instance.CanMove && healingBuff != null,
                     new Action(
                         ret =>
                             {
                                 Console.WriteLine("Healing");
-                                var healingBuff =
-                                    ObjectManager.Get<GameObject>()
-                                        .Where(o => o.IsEnemy && o.Name.ToLower().Contains("healingbuff"))
-                                        .OrderBy(o => Player.Instance.Position.Distance(o.Position))
-                                        .FirstOrDefault();
-
                                 var enemyTurret =
                                     EntityManager.Turrets.Enemies.Where(x => !x.IsDead)
                                         .OrderBy(x => x.Distance(Player.Instance))
                                         .FirstOrDefault();
 
-                                if ((enemyTurret != null && healingBuff != null) && healingBuff.Distance(enemyTurret) > enemyTurret.AttackRange * 1.3)
+                                if ((enemyTurret != null && healingBuff != null) && healingBuff.Distance(enemyTurret) > enemyTurret.AttackRange * 1.9 && healingBuff.IsInRange(Player.Instance, 1300))
                                 {
                                     Player.IssueOrder(GameObjectOrder.MoveTo, healingBuff.Position);
-                                    Console.WriteLine("Heal found");
+                                    Console.WriteLine(enemyTurret.Position);
                                 }
                                 else
                                 {

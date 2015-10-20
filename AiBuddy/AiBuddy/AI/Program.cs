@@ -15,6 +15,8 @@
     {
         private static GameRoutine Routine;
 
+        private static int lastTick;
+
         private static void Main(string[] args)
         {
             Loading.OnLoadingComplete += delegate
@@ -34,12 +36,16 @@
 
                     Game.OnTick += delegate
                         {
-                            Routine.PrimaryBehaviour.Tick(null);
-
-                            if (Routine.PrimaryBehaviour.LastStatus != RunStatus.Running)
+                            if (Environment.TickCount - lastTick < 200)
                             {
-                                Routine.PrimaryBehaviour.Stop(null);
-                                Routine.PrimaryBehaviour.Start(null);
+                                lastTick = Environment.TickCount;
+                                Routine.PrimaryBehaviour.Tick(null);
+
+                                if (Routine.PrimaryBehaviour.LastStatus != RunStatus.Running)
+                                {
+                                    Routine.PrimaryBehaviour.Stop(null);
+                                    Routine.PrimaryBehaviour.Start(null);
+                                }
                             }
                         };
 

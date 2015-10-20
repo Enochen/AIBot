@@ -86,7 +86,7 @@
             foreach (var cell in navCells)
             {
                 var color = Color.LightCoral;
-                switch (cell.CalculateSafety())
+                switch (cell.MeshCell.CalculateSafety())
                 {
                     case NavigationSafety.Safe:
                         color = Color.SpringGreen;
@@ -108,33 +108,37 @@
             return null;
         }
 
-        internal static NavigationSafety CalculateSafety(this NavigationControlCell cell)
+        internal static NavigationSafety CalculateSafety(this NavMeshCell cell)
         {
-            if (cell.MeshCell.CollFlags.HasFlag(CollisionFlags.Grass))
+            if (cell.CollFlags.HasFlag(CollisionFlags.Grass))
             {
                 return NavigationSafety.Grass;
             }
-            //If cell is under turret and no ally under turret
-            foreach (var ally in EntityManager.Heroes.Allies)
+            var enemyTurret = EntityManager.Turrets.Enemies.Where(turret => !turret.IsDead).OrderBy(turret => turret.Distance(Player.Instance)).FirstOrDefault();
+            if (cell.WorldPosition.IsInRange(enemyTurret, 800))
             {
-                foreach (
-                    var turret in
-                        EntityManager.Turrets.Enemies.Where(
-                            turret => cell.MeshCell.WorldPosition.IsInRange(turret, turret.GetAutoAttackRange())))
-                {
-                    return ally.IsInRange(turret, turret.GetAutoAttackRange())
-                               ? NavigationSafety.Average
-                               : NavigationSafety.Danger;
-                }
+                return NavigationSafety.Danger;
             }
+            if(EntityManager.Heroes.Allies.Count(ally => ally.IsInRange(enemyTurret, 800)) > 1)
+            {
+                return NavigationSafety.Average;
+            }
+            //If cell is under turret and no ally under turret
             return NavigationSafety.Safe;
         }
-        public static Vector3 RandomizePosition(this Vector3 v)
+        public static Vector3 Randomize(this Vector3 v)
         {
             var r = new Random(Environment.TickCount);
-            var minRandBy = 30;
-            var maxRandBy = 30;
-            minRandBy *= r.Next(-1, 1);
+            var minRandBy = 0;
+            var maxRandBy = 500;
+            if (Player.Instance.Team == GameObjectTeam.Order)
+            {
+                minRandBy *= 1;
+            }
+            else
+            {
+                minRandBy *= 1;
+            }
             return new Vector2(v.X + r.Next(minRandBy, maxRandBy), v.Y + r.Next(minRandBy, maxRandBy)).To3D();
         }
     }
