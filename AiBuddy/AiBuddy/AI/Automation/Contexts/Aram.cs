@@ -64,21 +64,57 @@
         public override void Rebuild()
         {
             this.m_primaryBehaviour = new PrioritySelector(
-                this.ShoppingBehaviour(),
+                this.ShopBehaviour(),
                 this.HealBehaviour(),
-                this.FarmBehaviour());
+                this.FarmBehaviour(),
+                this.MoveBehaviour());
         }
 
-        public Composite ShoppingBehaviour()
+        public Composite ShopBehaviour()
         {
             return new Decorator(ret => Shop.CanShop, new Action(ret => { this.shopHandler.OnTick(); }));
+        }
+
+        public Composite MoveBehaviour()
+        {
+            return new PrioritySelector(
+                            new Decorator(
+                                ret => Player.Instance.CanMove,
+                                new Action(
+                                    ret =>
+                                    {
+                                        Console.WriteLine("Moving to Nearest Ally or Minion");
+                                        var ally =
+                                            EntityManager.Heroes.Allies.Where(x => !x.IsDead && !x.IsInShopRange() && !x.IsMe)
+                                                .OrderBy(x => x.ChampionsKilled)
+                                                .FirstOrDefault();
+
+                                        var minion =
+                                            EntityManager.MinionsAndMonsters.AlliedMinions.OrderByDescending(
+                                                x => x.Distance(ObjectManager.Get<Obj_HQ>().FirstOrDefault())).FirstOrDefault();
+
+                                        if (ally != null)
+                                        {
+                                            Player.IssueOrder(GameObjectOrder.MoveTo, ally.Position);
+                                            Console.WriteLine("Ally found, moving");
+                                        }
+                                        else if(minion != null)
+                                        {
+                                            Player.IssueOrder(GameObjectOrder.MoveTo, minion.Position);
+                                            Console.WriteLine("Minion found, moving");
+                                        }
+                                        else
+                                        {
+                                            Console.WriteLine("No one found ;(");
+                                        }
+                                    })));
         }
 
         public Composite HealBehaviour()
         {
             return new PrioritySelector(
                 new Decorator(
-                    ret => Player.Instance.HealthPercent < 50,
+                    ret => Player.Instance.HealthPercent < 50 && Player.Instance.CanMove,
                     new Action(
                         ret =>
                             {
