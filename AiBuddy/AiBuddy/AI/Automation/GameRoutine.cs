@@ -12,7 +12,9 @@
 
         public abstract GameMapId MapId { get; }
 
-        public abstract Composite PrimaryBehaviour { get; }
+        public abstract Composite MoveBehaviour { get; }
+
+        public abstract Composite ShopBehaviour { get; }
 
         public abstract void Rebuild();
     }

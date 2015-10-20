@@ -27,7 +27,8 @@
             this.shopHandler = new ShopHandler();
             FindChampion.FindAndSetChampion();
             this.Rebuild();
-            this.m_primaryBehaviour.Start(null);
+            this.m_shopBehaviour.Start(null);
+            this.m_moveBehaviour.Start(null);
         }
 
         public override void OnDraw()
@@ -53,37 +54,49 @@
             }
         }
 
-        private Composite m_primaryBehaviour;
 
-        public override Composite PrimaryBehaviour
+        private Composite m_shopBehaviour;
+        private Composite m_moveBehaviour;
+
+        public override Composite MoveBehaviour
         {
             get
             {
-                return this.m_primaryBehaviour;
+                return this.m_moveBehaviour;
+            }
+        }
+        public override Composite ShopBehaviour
+        {
+            get
+            {
+                return this.m_shopBehaviour;
             }
         }
 
         public override void Rebuild()
         {
-            this.m_primaryBehaviour = new PrioritySelector(
-                
+
+            this.m_shopBehaviour = new PrioritySelector(this.BuyBehaviour());
+            this.m_moveBehaviour = new PrioritySelector(
                 this.HealBehaviour(),
-                this.ShopBehaviour(),
+                this.AttackStructureBehaviour(),
                 this.FarmBehaviour(),
-                this.MoveBehaviour());
+                this.FollowBehaviour());
         }
 
-        public Composite ShopBehaviour()
+        public Composite BuyBehaviour()
         {
-            return new Decorator(ret => Shop.CanShop/* && this.shopHandler.finishedShop()*/, new Action(
+            return new Decorator(ret => true
+            //&& new ItemData((uint)this.shopHandler.CurrentItem.Id).BasePrice < Player.Instance.Gold
+            , new Action(
                 ret =>
                     {
-                        Console.WriteLine("Shopping");
+                        Console.WriteLine("a");
                         this.shopHandler.OnTick();
                     }));
         }
 
-        public Composite MoveBehaviour()
+        public Composite FollowBehaviour()
         {
             return new PrioritySelector(
                             new Decorator(
@@ -112,10 +125,12 @@
                                                 minion.Position.Extend(
                                                     ObjectManager.Get<Obj_HQ>().FirstOrDefault(),
                                                     250).To3D().Randomize();
-                                            if(Navigation.CalculateSafety(position.ToNavMeshCell()) < NavigationSafety.Average)
-                                            Orbwalker.OrbwalkTo(position);
-                                            //Console.WriteLine("Minion found, moving");
-                                            Console.WriteLine(minion.Position.Extend(ObjectManager.Get<Obj_HQ>().FirstOrDefault(), 250).To3D() +" vs " + minion.Position);
+                                            if (position.ToNavMeshCell().CalculateSafety()
+                                                < NavigationSafety.Danger)
+                                            {
+                                                Orbwalker.OrbwalkTo(position);
+                                            }
+                                            Console.WriteLine("Minion found, moving to " + position);
                                         }
                                         else
                                         {
@@ -162,7 +177,7 @@
                     new Decorator(
                         ret =>
                         EntityManager.MinionsAndMonsters.EnemyMinions.Any(
-                            o => o.Distance(Player.Instance) < Player.Instance.AttackRange),
+                            o => o.Distance(Player.Instance) < Player.Instance.GetAutoAttackRange()),
                         new Action(
                             a =>
                                 {
@@ -171,14 +186,46 @@
                                             o => o.Distance(Player.Instance) < Player.Instance.AttackRange)
                                             .FirstOrDefault();
 
-                                    if (target == null)
+                                    if (target != null)
                                     {
-                                        return;
+                                        var position = target.Position.Randomize();
+
+                                        if (position.ToNavMeshCell().CalculateSafety() > NavigationSafety.Average)
+                                        {
+                                            return;
+                                        }
+                                        Orbwalker.ForcedTarget = target;
+                                        Orbwalker.OrbwalkTo(target.Position.Randomize());
+                                        //Player.IssueOrder(GameObjectOrder.AttackTo, target);
                                     }
-                                    Orbwalker.ForcedTarget = target;
-                                    Orbwalker.OrbwalkTo(target.Position);
-                                })))
-            ;
+
+                                })));
+        }
+        public Composite AttackStructureBehaviour()
+        {
+            return
+                new PrioritySelector(
+                    new Decorator(
+                        ret =>
+                        EntityManager.Turrets.Enemies.Any(
+                            t => t.Distance(Player.Instance) < Player.Instance.GetAutoAttackRange()),
+                        new Action(
+                            a =>
+                            {
+                                var target =
+                                    EntityManager.Turrets.Enemies.OrderBy(
+                                        t => t.Distance(Player.Instance) < Player.Instance.AttackRange)
+                                        .FirstOrDefault();
+
+                                if (target == null
+                                    || target.Position.ToNavMeshCell().CalculateSafety() > NavigationSafety.Average)
+                                {
+                                    return;
+                                }
+                                //Orbwalker.ForcedTarget = target;
+                                //Orbwalker.OrbwalkTo(target.Position.Randomize());
+                                Player.IssueOrder(GameObjectOrder.AttackUnit, target);
+                            })));
         }
     }
 }

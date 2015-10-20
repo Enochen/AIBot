@@ -36,16 +36,22 @@
 
                     Game.OnTick += delegate
                         {
-                            if (Environment.TickCount - lastTick < 200)
+                            if (Environment.TickCount - lastTick >= 200)
                             {
-                                lastTick = Environment.TickCount;
-                                Routine.PrimaryBehaviour.Tick(null);
-
-                                if (Routine.PrimaryBehaviour.LastStatus != RunStatus.Running)
-                                {
-                                    Routine.PrimaryBehaviour.Stop(null);
-                                    Routine.PrimaryBehaviour.Start(null);
-                                }
+                                return;
+                            }
+                            lastTick = Environment.TickCount;
+                            Routine.ShopBehaviour.Tick(null);
+                            Routine.MoveBehaviour.Tick(null);
+                            if (Routine.ShopBehaviour.LastStatus != RunStatus.Running)
+                            {
+                                Routine.ShopBehaviour.Stop(null);
+                                Routine.ShopBehaviour.Start(null);
+                            }
+                            if (Routine.MoveBehaviour.LastStatus != RunStatus.Running)
+                            {
+                                Routine.MoveBehaviour.Stop(null);
+                                Routine.MoveBehaviour.Start(null);
                             }
                         };
 

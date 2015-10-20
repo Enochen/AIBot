@@ -50,20 +50,23 @@ namespace AiBuddy
                         .Where(routine => Game.MapId == routine.MapId))
                 {
                     Routine = routine;
-
                     Routine.OnLoad();
                 }
 
                 Game.OnTick += delegate
                 {
-                    Routine.PrimaryBehaviour.Tick(null);
-
-                    if (Routine.PrimaryBehaviour.LastStatus == RunStatus.Running)
+                    Routine.ShopBehaviour.Tick(null);
+                    Routine.MoveBehaviour.Tick(null);
+                    if (Routine.ShopBehaviour.LastStatus != RunStatus.Running)
                     {
-                        return;
+                        Routine.ShopBehaviour.Stop(null);
+                        Routine.ShopBehaviour.Start(null);
                     }
-                    Routine.PrimaryBehaviour.Stop(null);
-                    Routine.PrimaryBehaviour.Start(null);
+                    if (Routine.MoveBehaviour.LastStatus != RunStatus.Running)
+                    {
+                        Routine.MoveBehaviour.Stop(null);
+                        Routine.MoveBehaviour.Start(null);
+                    }
                 };
 
                 Drawing.OnDraw += delegate { Routine.OnDraw(); };

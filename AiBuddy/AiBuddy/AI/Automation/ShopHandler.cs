@@ -34,8 +34,9 @@ namespace AiBuddy.AI.Automation
     {
         private Composite _behaviour;
         private readonly List<Item> _build;
-
         private readonly JsonChampionBuildFile _buildInformation;
+
+        private string[] boots = { "shoes", "boots", "greaves", "treads", "tabi" };
 
         public List<Item> Build
         {
@@ -46,7 +47,7 @@ namespace AiBuddy.AI.Automation
         {
             get
             {
-                return this._build.ToList(); //.Where(item => !Item.HasItem(item.Id)).ToList(); }
+                return this._build.Where(item => !Item.HasItem(item.Id)).ToList();
             }
         }
 
@@ -60,11 +61,15 @@ namespace AiBuddy.AI.Automation
             this._behaviour = new Decorator(
                 ret => Shop.CanShop && this.CurrentItem != null,
                 new PrioritySelector(
-                        ret => new ItemData((uint)this.CurrentItem.Id).BasePrice < Player.Instance.Gold,
+                        ret => true,
                         new Action(ret =>
                             {
+                                if (this.boots.Any(b => Player.Instance.InventoryItems.ToString().ToLower().Contains(b)) && this.boots.Any(b => new ItemData((uint)this.CurrentItem.Id).Name.ToLower().Contains(b)))
+                                {
+                                    this.Build.Remove(this.CurrentItem);
+                                }
                                 Shop.BuyItem(this.CurrentItem.Id);
-                                Build.Remove(this.CurrentItem);
+                                this.Build.Remove(this.CurrentItem);
                                 //this.CurrentItem.Buy();
                             })
                 ));

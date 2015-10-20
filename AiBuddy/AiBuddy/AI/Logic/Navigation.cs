@@ -6,7 +6,6 @@
 
     using EloBuddy;
     using EloBuddy.SDK;
-    using EloBuddy.SDK.Menu.Values;
     using EloBuddy.SDK.Rendering;
 
     using SharpDX;
@@ -114,18 +113,36 @@
             {
                 return NavigationSafety.Grass;
             }
-            var enemyTurret = EntityManager.Turrets.Enemies.Where(turret => !turret.IsDead).OrderBy(turret => turret.Distance(Player.Instance)).FirstOrDefault();
-            if (cell.WorldPosition.IsInRange(enemyTurret, 800))
+            //Cell & Turret stuff
+            var enemyTurret =
+                EntityManager.Turrets.Enemies.Where(turret => !turret.IsDead)
+                    .OrderBy(turret => turret.Distance(Player.Instance))
+                    .FirstOrDefault();
+
+            if (cell.WorldPosition.IsInRange(enemyTurret, 900))
             {
+                if (EntityManager.MinionsAndMonsters.AlliedMinions.Count(ally => ally.IsInRange(enemyTurret, 900)) > 3)
+                {
+                    return NavigationSafety.Average;
+                }
+                if (EntityManager.Heroes.Allies.Count(ally => ally.IsInRange(enemyTurret, 900)) > 3)
+                {
+                    return NavigationSafety.Safe;
+                }
+                if (EntityManager.Heroes.Allies.Count(ally => ally.IsInRange(enemyTurret, 900)) > 1)
+                {
+                    return NavigationSafety.Average;
+                }
+                if (enemyTurret.CountEnemiesInRange(900) > 2)
+                {
+                    return NavigationSafety.VeryDangerous;
+                }
                 return NavigationSafety.Danger;
-            }
-            if(EntityManager.Heroes.Allies.Count(ally => ally.IsInRange(enemyTurret, 800)) > 1)
-            {
-                return NavigationSafety.Average;
             }
             //If cell is under turret and no ally under turret
             return NavigationSafety.Safe;
         }
+
         public static Vector3 Randomize(this Vector3 v)
         {
             var r = new Random(Environment.TickCount);
