@@ -94,7 +94,6 @@
     <Compile Include="AI\Maps\HowlingAbyss\Brain\StateBrain\ComboBrain.cs" />
     <Compile Include="AI\Maps\HowlingAbyss\Brain\StateBrain\Control.cs" />
     <Compile Include="AI\Maps\HowlingAbyss\Brain\StateBrain\StateManager.cs" />
-    <Compile Include="AI\Maps\HowlingAbyss\Shop\ShopList.cs" />
     <Compile Include="Champions\Aatrox\Aatrox.cs" />
     <Compile Include="Champions\Aatrox\Modes\Combo.cs" />
     <Compile Include="Champions\Ahri\Ahri.cs" />
@@ -135,13 +134,13 @@
     <Compile Include="AI\InitBrain.cs" />
     <Compile Include="AI\Maps\HowlingAbyss\Brain\Brain.cs" />
     <Compile Include="AI\Maps\HowlingAbyss\MapHandler.cs" />
-    <Compile Include="AI\Maps\HowlingAbyss\Shop\ShopManager.cs" />
     <Compile Include="Champions\Blitzcrank\Modes\Combo.cs" />
     <Compile Include="Champions\Blitzcrank\Blitzcrank.cs" />
     <Compile Include="Champions\Teemo\Modes\Combo.cs" />
     <Compile Include="Champions\Teemo\Shroom\Init.cs" />
     <Compile Include="Champions\Teemo\Shroom\ShroomTables.cs" />
     <Compile Include="Champions\Teemo\Teemo.cs" />
+    <Compile Include="Champions\Utils\Helper.cs" />
     <Compile Include="Init.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
