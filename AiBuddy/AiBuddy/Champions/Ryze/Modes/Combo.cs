@@ -31,7 +31,7 @@ namespace AiBuddy.Champions.Ryze.Modes
 
             if (Ryze.Q.IsReady() && target.IsValidTarget(Ryze.Q.Range))
             {
-                Ryze.Q.Cast(Ryze.Q.GetPrediction(target).UnitPosition);
+                Ryze.Q.Cast(target);
             }
             if (Ryze.W.IsReady() && target.IsValidTarget(Ryze.W.Range))
             {

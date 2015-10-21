@@ -3,10 +3,8 @@
     using System;
     using System.Drawing;
     using System.Linq;
-    using System.Security.Cryptography;
 
     using AiBuddy.AI.Logic;
-    using AiBuddy.AI.Maps.HowlingAbyss.Shop;
     using AiBuddy.Champions;
 
     using EloBuddy;
@@ -15,14 +13,17 @@
     using TreeSharp;
 
     using Action = TreeSharp.Action;
-    
+
     internal class Aram : GameRoutine
     {
         private ShopHandler shopHandler;
 
         public override void OnLoad()
         {
-            Chat.Print(string.Format("<font color=\"#40c1ff\">[AIBuddy]:</font> <font color=\"#ffffff\">{0} loaded</font>", this.MapId));
+            Chat.Print(
+                string.Format(
+                    "<font color=\"#40c1ff\">[AIBuddy]:</font> <font color=\"#ffffff\">{0} loaded</font>",
+                    this.MapId));
 
             this.shopHandler = new ShopHandler();
             FindChampion.FindAndSetChampion();
@@ -54,8 +55,8 @@
             }
         }
 
-
         private Composite m_shopBehaviour;
+
         private Composite m_moveBehaviour;
 
         public override Composite MoveBehaviour
@@ -65,6 +66,7 @@
                 return this.m_moveBehaviour;
             }
         }
+
         public override Composite ShopBehaviour
         {
             get
@@ -75,7 +77,6 @@
 
         public override void Rebuild()
         {
-
             this.m_shopBehaviour = new PrioritySelector(this.BuyBehaviour());
             this.m_moveBehaviour = new PrioritySelector(
                 this.HealBehaviour(),
@@ -86,57 +87,62 @@
 
         public Composite BuyBehaviour()
         {
-            return new Decorator(ret => true
-            //&& new ItemData((uint)this.shopHandler.CurrentItem.Id).BasePrice < Player.Instance.Gold
-            , new Action(
-                ret =>
-                    {
-                        Console.WriteLine("a");
-                        this.shopHandler.OnTick();
-                    }));
+            return new Decorator(
+                ret => true
+                //&& new ItemData((uint)this.shopHandler.CurrentItem.Id).BasePrice < Player.Instance.Gold
+                ,
+                new Action(ret => { this.shopHandler.OnTick(); }));
         }
 
         public Composite FollowBehaviour()
         {
             return new PrioritySelector(
-                            new Decorator(
-                                ret => Player.Instance.CanMove,
-                                new Action(
-                                    ret =>
-                                    {
-                                        Console.WriteLine("Moving to Nearest Ally or Minion");
-                                        var ally =
-                                            EntityManager.Heroes.Allies.Where(x => !x.IsDead && !x.IsInShopRange() && !x.IsMe)
-                                                .OrderBy(x => x.ChampionsKilled)
-                                                .FirstOrDefault();
-                                        
-                                        var minion =
-                                            EntityManager.MinionsAndMonsters.AlliedMinions.OrderByDescending(
-                                                x => x.Distance(ObjectManager.Get<Obj_HQ>().FirstOrDefault())).FirstOrDefault();
+                new Decorator(
+                    ret => Player.Instance.CanMove,
+                    new Action(
+                        ret =>
+                            {
+                                Console.WriteLine("Moving to Nearest Ally or Minion or Turret");
+                                var ally =
+                                    EntityManager.Heroes.Allies.Where(x => !x.IsDead && !x.IsInShopRange() && !x.IsMe)
+                                        .OrderBy(x => x.ChampionsKilled)
+                                        .FirstOrDefault();
 
-                                        if (ally != null)
-                                        {
-                                            Orbwalker.OrbwalkTo(ally.Position.Randomize());
-                                            Console.WriteLine("Ally found, moving");
-                                        }
-                                        else if(minion != null)
-                                        {
-                                            var position =
-                                                minion.Position.Extend(
-                                                    ObjectManager.Get<Obj_HQ>().FirstOrDefault(),
-                                                    250).To3D().Randomize();
-                                            if (position.ToNavMeshCell().CalculateSafety()
-                                                < NavigationSafety.Danger)
-                                            {
-                                                Orbwalker.OrbwalkTo(position);
-                                            }
-                                            Console.WriteLine("Minion found, moving to " + position);
-                                        }
-                                        else
-                                        {
-                                            Console.WriteLine("No one found ;(");
-                                        }
-                                    })));
+                                var minion =
+                                    EntityManager.MinionsAndMonsters.AlliedMinions.OrderByDescending(
+                                        x => x.Distance(ObjectManager.Get<Obj_HQ>().FirstOrDefault())).ElementAt(3);
+
+                                var turret =
+    EntityManager.Turrets.Allies.OrderByDescending(
+        x => x.Distance(ObjectManager.Get<Obj_HQ>().FirstOrDefault())).FirstOrDefault();
+
+                                if (ally != null)
+                                {
+                                    Orbwalker.OrbwalkTo(ally.Position.Randomize());
+                                    Console.WriteLine("Ally found, moving");
+                                }
+                                else if (minion != null)
+                                {
+                                    var position =
+                                        minion.Position.Extend(ObjectManager.Get<Obj_HQ>().FirstOrDefault(), 250)
+                                            .To3D()
+                                            .Randomize();
+                                    if (position.ToNavMeshCell().CalculateSafety() < NavigationSafety.Danger)
+                                    {
+                                        Orbwalker.OrbwalkTo(position);
+                                    }
+                                    Console.WriteLine("Minion found, moving to " + position);
+                                }
+                                else if (turret != null)
+                                {
+                                    Orbwalker.OrbwalkTo(turret.Position.Randomize());
+                                    Console.WriteLine("Turret Found");
+                                }
+                                else
+                                {
+                                    Console.WriteLine("No one found ;(");
+                                }
+                            })));
         }
 
         public Composite HealBehaviour()
@@ -146,28 +152,33 @@
                     .Where(o => o.IsEnemy && o.Name.ToLower().Contains("healingbuff"))
                     .OrderBy(o => Player.Instance.Position.Distance(o.Position))
                     .FirstOrDefault();
-            return new PrioritySelector(
-                new Decorator(
-                    ret => Player.Instance.HealthPercent < 50 && Player.Instance.CanMove && healingBuff != null,
-                    new Action(
+            return
+                new PrioritySelector(
+                    new Decorator(
                         ret =>
-                            {
-                                Console.WriteLine("Healing");
-                                var enemyTurret =
-                                    EntityManager.Turrets.Enemies.Where(x => !x.IsDead)
-                                        .OrderBy(x => x.Distance(Player.Instance))
-                                        .FirstOrDefault();
+                        (Player.Instance.HealthPercent < 50 || Player.Instance.ManaPercent < 30)
+                        && Player.Instance.CanMove && healingBuff != null && healingBuff.IsVisible,
+                        new Action(
+                            ret =>
+                                {
+                                    Console.WriteLine("Healing");
+                                    var enemyTurret =
+                                        EntityManager.Turrets.Enemies.Where(x => !x.IsDead)
+                                            .OrderBy(x => x.Distance(Player.Instance))
+                                            .FirstOrDefault();
 
-                                if ((enemyTurret != null && healingBuff != null) && healingBuff.Distance(enemyTurret) > enemyTurret.AttackRange * 1.9 && healingBuff.IsInRange(Player.Instance, 1300))
-                                {
-                                    Player.IssueOrder(GameObjectOrder.MoveTo, healingBuff.Position);
-                                    Console.WriteLine(enemyTurret.Position);
-                                }
-                                else
-                                {
-                                    Console.WriteLine("No heal found");
-                                }
-                            })));
+                                    if ((enemyTurret != null && healingBuff.IsVisible)
+                                        && healingBuff.Distance(enemyTurret) > enemyTurret.AttackRange * 1.9
+                                        && healingBuff.IsInRange(Player.Instance, 1300))
+                                    {
+                                        Player.IssueOrder(GameObjectOrder.MoveTo, healingBuff.Position);
+                                        Console.WriteLine(enemyTurret.Position);
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("No heal found");
+                                    }
+                                })));
         }
 
         public Composite FarmBehaviour()
@@ -178,6 +189,7 @@
                         ret =>
                         EntityManager.MinionsAndMonsters.EnemyMinions.Any(
                             o => o.Distance(Player.Instance) < Player.Instance.GetAutoAttackRange()),
+                        //&& Player.Instance.CountEnemiesInRange(1000) < 1,
                         new Action(
                             a =>
                                 {
@@ -195,37 +207,76 @@
                                             return;
                                         }
                                         Orbwalker.ForcedTarget = target;
-                                        Orbwalker.OrbwalkTo(target.Position.Randomize());
-                                        //Player.IssueOrder(GameObjectOrder.AttackTo, target);
+                                        var minion = EntityManager.MinionsAndMonsters.AlliedMinions.OrderByDescending(
+                                            x => x.Distance(ObjectManager.Get<Obj_HQ>().FirstOrDefault())).ElementAt(3);
+                                        if (
+                                            minion != null)
+                                        {
+                                            Orbwalker.OrbwalkTo(minion.Position.Randomize());
+                                        }
+                                        //Player.IssueOrder(GameObjectOrder.AutoAttack, target);
                                     }
-
                                 })));
         }
+
         public Composite AttackStructureBehaviour()
         {
+            var target =
+                EntityManager.Turrets.Enemies.OrderBy(t => t.Distance(Player.Instance) < Player.Instance.AttackRange)
+                    .FirstOrDefault();
             return
                 new PrioritySelector(
                     new Decorator(
                         ret =>
-                        EntityManager.Turrets.Enemies.Any(
-                            t => t.Distance(Player.Instance) < Player.Instance.GetAutoAttackRange()),
+                            {
+                                return target != null
+                                       && (EntityManager.Turrets.Enemies.Any(
+                                           t => t.Distance(Player.Instance) < Player.Instance.GetAutoAttackRange())
+                                           && target.Position.ToNavMeshCell().CalculateSafety()
+                                           < NavigationSafety.Danger);
+                            },
                         new Action(
                             a =>
-                            {
-                                var target =
-                                    EntityManager.Turrets.Enemies.OrderBy(
-                                        t => t.Distance(Player.Instance) < Player.Instance.AttackRange)
-                                        .FirstOrDefault();
-
-                                if (target == null
-                                    || target.Position.ToNavMeshCell().CalculateSafety() > NavigationSafety.Average)
                                 {
-                                    return;
-                                }
-                                //Orbwalker.ForcedTarget = target;
-                                //Orbwalker.OrbwalkTo(target.Position.Randomize());
-                                Player.IssueOrder(GameObjectOrder.AttackUnit, target);
-                            })));
+                                    if (target == null
+                                        || target.Position.ToNavMeshCell().CalculateSafety() > NavigationSafety.Average)
+                                    {
+                                        return;
+                                    }
+                                    //Orbwalker.ForcedTarget = target;
+                                    //Orbwalker.OrbwalkTo(target.Position.Randomize());
+                                    Player.IssueOrder(GameObjectOrder.AttackUnit, target);
+                                })));
+        }
+
+        public Composite AttackEnemyBehavior()
+        {
+            var target =
+                EntityManager.Heroes.Enemies.OrderBy(t => t.Distance(Player.Instance) < Player.Instance.AttackRange)
+                    .FirstOrDefault();
+            return
+                new PrioritySelector(
+                    new Decorator(
+                        ret =>
+                            {
+                                return target != null
+                                       && (EntityManager.Heroes.Enemies.Any(
+                                           t => t.Distance(Player.Instance) < Player.Instance.GetAutoAttackRange())
+                                           && target.Position.ToNavMeshCell().CalculateSafety()
+                                           < NavigationSafety.Danger);
+                            },
+                        new Action(
+                            a =>
+                                {
+                                    if (target == null
+                                        || target.Position.ToNavMeshCell().CalculateSafety() > NavigationSafety.Average)
+                                    {
+                                        return;
+                                    }
+                                    //Orbwalker.ForcedTarget = target;
+                                    //Orbwalker.OrbwalkTo(target.Position.Randomize());
+                                    Player.IssueOrder(GameObjectOrder.AttackUnit, target);
+                                })));
         }
     }
 }

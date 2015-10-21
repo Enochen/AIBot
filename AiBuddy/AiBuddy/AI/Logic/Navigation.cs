@@ -139,7 +139,17 @@
                 }
                 return NavigationSafety.Danger;
             }
-            //If cell is under turret and no ally under turret
+            //Ally and Enemy Count
+            if (EntityManager.Heroes.Allies.Count(a => a.Distance(cell.WorldPosition) < 500)
+                < cell.WorldPosition.CountEnemiesInRange(500))
+            {
+                return NavigationSafety.Danger;
+            }
+            if (EntityManager.Heroes.Allies.Count(a => a.Distance(cell.WorldPosition) < 500)
+                == cell.WorldPosition.CountEnemiesInRange(500))
+            {
+                return NavigationSafety.Average;
+            }
             return NavigationSafety.Safe;
         }
 
@@ -147,14 +157,14 @@
         {
             var r = new Random(Environment.TickCount);
             var minRandBy = 0;
-            var maxRandBy = 500;
+            var maxRandBy = 200;
             if (Player.Instance.Team == GameObjectTeam.Order)
             {
                 minRandBy *= 1;
             }
             else
             {
-                minRandBy *= 1;
+                minRandBy *= -1;
             }
             return new Vector2(v.X + r.Next(minRandBy, maxRandBy), v.Y + r.Next(minRandBy, maxRandBy)).To3D();
         }
