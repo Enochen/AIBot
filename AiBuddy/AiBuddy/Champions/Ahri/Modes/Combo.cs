@@ -1,8 +1,8 @@
 ﻿#region
 
 using AiBuddy.AI.Maps.HowlingAbyss.Brain;
+using AiBuddy.Champions.Utils;
 using AiBuddy.Utils;
-using EloBuddy;
 using EloBuddy.SDK;
 
 #endregion
@@ -11,11 +11,6 @@ namespace AiBuddy.Champions.Ahri.Modes
 {
     internal class Combo
     {
-        public static AIHeroClient _Player
-        {
-            get { return ObjectManager.Player; }
-        }
-
         public static void Execute()
         {
 
@@ -38,7 +33,7 @@ namespace AiBuddy.Champions.Ahri.Modes
             }
 
             if (Ahri.R.IsReady() && target.IsValidTarget(Ahri.R.Range) &&
-                _Player.CountEnemiesInRange(Ahri.Q.Range) <= 2 && target.HealthPercent <= 30 && ComboWinPrediction.Calculate() <= 70)
+                Helper.Player.CountEnemiesInRange(Ahri.Q.Range) <= 2 && target.HealthPercent <= 30 && ComboWinPrediction.Calculate() <= 70)
             {
                 Ahri.R.Cast(target);
             }

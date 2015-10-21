@@ -9,8 +9,6 @@ namespace AiBuddy.Champions.Akali.Modes
 {
     internal class Combo
     {
-        public static float ComboRange = Akali.R.Range;
-
         public static void Execute()
         {
             var target = GetTarget.GetComboTarget();
@@ -26,15 +24,10 @@ namespace AiBuddy.Champions.Akali.Modes
                 Akali.E.Cast();
             }
 
-            if (Akali.R.IsReady())
+            if (Akali.R.IsReady() && (target.IsValidTarget(Akali.R.Range) && target.CountEnemiesInRange(700) <= 2)
             {
-                var targetR = GetTarget.Target(Akali.R.Range, Utils.DamageLib.GetDamageType.Get());
-                if (targetR == null) return;
 
-                if (target.IsValidTarget(Akali.R.Range) && target.CountEnemiesInRange(700) <= 2)
-                {
-                    Akali.R.Cast(target);
-                }
+                Akali.R.Cast(target);
             }
         }
     }

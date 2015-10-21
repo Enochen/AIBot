@@ -1,8 +1,6 @@
 ﻿namespace AiBuddy.Champions.Ryze
 {
     using System;
-    using System.Linq;
-
     using EloBuddy;
     using EloBuddy.SDK;
     using EloBuddy.SDK.Enumerations;

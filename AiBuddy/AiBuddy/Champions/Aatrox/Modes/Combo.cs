@@ -1,8 +1,7 @@
 ﻿#region
 
-using AiBuddy.AI.Maps.HowlingAbyss.Brain;
+using AiBuddy.Champions.Utils;
 using AiBuddy.Utils;
-using EloBuddy;
 using EloBuddy.SDK;
 
 #endregion
@@ -11,11 +10,6 @@ namespace AiBuddy.Champions.Aatrox.Modes
 {
     internal class Combo
     {
-        public static AIHeroClient _Player
-        {
-            get { return ObjectManager.Player; }
-        }
-
         public static void Execute()
         {
 
@@ -33,18 +27,18 @@ namespace AiBuddy.Champions.Aatrox.Modes
                 Aatrox.E.Cast(target);
             }
 
-            if (Aatrox.W.IsReady() && _Player.HealthPercent <= 60 && _Player.HasBuff("AatroxWPower"))
+            if (Aatrox.W.IsReady() && Helper.Player.HealthPercent <= 60 && Helper.Player.HasBuff("AatroxWPower"))
             {
                 Aatrox.W.Cast();
             }
 
-            if (Aatrox.W.IsReady() && _Player.HealthPercent >= 90 && !_Player.HasBuff("AatroxWPower"))
+            if (Aatrox.W.IsReady() && Helper.Player.HealthPercent >= 90 && !Helper.Player.HasBuff("AatroxWPower"))
             {
                 Aatrox.W.Cast();
             }
 
             if (Aatrox.R.IsReady() && target.IsValidTarget(Aatrox.R.Range) &&
-                _Player.CountEnemiesInRange(Aatrox.Q.Range) <= 2)
+                Helper.Player.CountEnemiesInRange(Aatrox.Q.Range) <= 2)
             {
                 Aatrox.R.Cast(target);
             }

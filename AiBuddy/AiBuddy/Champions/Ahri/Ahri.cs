@@ -18,11 +18,6 @@ namespace AiBuddy.Champions.Ahri
         public static Spell.Skillshot E;
         public static Spell.Active R;
 
-        public static AIHeroClient _Player
-        {
-            get { return ObjectManager.Player; }
-        }
-
         public static void Initialize()
         {
             Bootstrap.Init(null);

@@ -1,6 +1,7 @@
 ﻿#region
 
 using System;
+using AiBuddy.Champions.Utils;
 using EloBuddy;
 using EloBuddy.SDK;
 using EloBuddy.SDK.Enumerations;
@@ -17,11 +18,6 @@ namespace AiBuddy.Champions.Akali
         public static Spell.Skillshot W;
         public static Spell.Active E;
         public static Spell.Targeted R;
-
-        public static AIHeroClient _Player
-        {
-            get { return ObjectManager.Player; }
-        }
 
         public static void Initialize()
         {
@@ -50,7 +46,7 @@ namespace AiBuddy.Champions.Akali
         {
             if (sender.IsEnemy && sender.IsValidTarget(W.Range) && sender != null && e != null)
             {
-                W.Cast(_Player);
+                W.Cast(Helper.Player);
             }
         }
 
@@ -58,11 +54,11 @@ namespace AiBuddy.Champions.Akali
         {
             if (sender.IsMe)
             {
-                if (_Player.Level == 11)
+                if (Helper.Player.Level == 11)
                 {
                     R = new Spell.Targeted(SpellSlot.R, 800);
                 }
-                if (_Player.Level == 16)
+                if (Helper.Player.Level == 16)
                 {
                     R = new Spell.Targeted(SpellSlot.R, 900);
                 }
